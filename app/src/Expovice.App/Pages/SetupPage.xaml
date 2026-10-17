@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- PROVIDER SETUP: 4-step wizard with progress bars and a sticky Continue / Publish bar. -->
+<pages:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:pages="clr-namespace:Expovice.App.Pages"
+                xmlns:c="clr-namespace:Expovice.App.Controls"
+                xmlns:contracts="clr-namespace:Expovice.Contracts;assembly=Expovice.Contracts"
+                xmlns:vm="clr-namespace:Expovice.App.Core.ViewModels;assembly=Expovice.App.Core"
+                x:Class="Expovice.App.Pages.SetupPage"
+                x:DataType="vm:SetupViewModel">
+  <Grid RowDefinitions="Auto,*,Auto">
+    <!-- Header -->
+    <VerticalStackLayout Padding="20,6,20,14" Spacing="14">
+      <Grid ColumnDefinitions="44,*,Auto" ColumnSpacing="12">
+        <c:IconButton Icon="chevL" Command="{Binding BackCommand}" SemanticProperties.Description="Back" />
+        <Label Grid.Column="1" Text="{Binding StepText}" FontFamily="FigtreeSemiBold" FontSize="13" TextColor="{StaticResource Neutral700}" VerticalOptions="Center" />
+        <Button Grid.Column="2" Text="Save &amp; exit" Style="{StaticResource GhostButton}" Command="{Binding SaveAndExitCommand}" />
+      </Grid>
+      <FlexLayout Wrap="NoWrap" Margin="-3,0" BindableLayout.ItemsSource="{Binding Bars}">
+        <BindableLayout.ItemTemplate>
+          <DataTemplate x:DataType="vm:ProgressMark">
+            <BoxView FlexLayout.Grow="1" FlexLayout.Basis="0" Margin="3,0" HeightRequest="6" CornerRadius="3" Color="{StaticResource Neutral300}">
+              <BoxView.Triggers>
+                <DataTrigger TargetType="BoxView" Binding="{Binding IsActive}" Value="True">
+                  <Setter Property="Color" Value="{StaticResource Accent}" />
+                </DataTrigger>
+              </BoxView.Triggers>
+            </BoxView>
+          </DataTemplate>
+        </BindableLayout.ItemTemplate>
+      </FlexLayout>
+      <Label Text="{Binding Title}" Style="{StaticResource Heading}" FontSize="28" />
+    </VerticalStackLayout>
+
+    <ScrollView Grid.Row="1">
+      <VerticalStackLayout Padding="20,4,20,24" Spacing="20">
+
+        <!-- Step 1: About you -->
+        <VerticalStackLayout Spacing="20" IsVisible="{Binding IsStep1}">
+          <Grid ColumnDefinitions="104,*" ColumnSpacing="16">
+            <Border WidthRequest="104" HeightRequest="104" StrokeShape="RoundRectangle 52" Stroke="{StaticResource Accent400Brush}"
+                    StrokeThickness="3" StrokeDashArray="3,2" Padding="0" SemanticProperties.Description="Add photo">
+              <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding PickPhotoCommand}" CommandParameter="{x:Static contracts:PhotoSlot.Profile}" />
+              </Border.GestureRecognizers>
+              <c:WashedImage Source="{Binding ProfilePhotoUrl}" IsCircle="True" Placeholder="Add photo" WidthRequest="98" HeightRequest="98" />
+            </Border>
+            <Label Grid.Column="1" Text="A clear photo of your face. Profiles with photos get far more requests." FontSize="13.5" LineHeight="1.45"
+                   TextColor="{StaticResource Neutral800}" VerticalOptions="Center" />
+          </Grid>
+          <VerticalStackLayout>
+            <Label Text="Full name" Style="{StaticResource FieldLabel}" />
+            <Border Style="{StaticResource InputBorder}" MinimumHeightRequest="50">
+              <Entry Text="{Binding Name}" Placeholder="As on your ID" FontSize="16" />
+            </Border>
+          </VerticalStackLayout>
+          <VerticalStackLayout>
+            <Label Text="Short bio" Style="{StaticResource FieldLabel}" />
+            <Border Style="{StaticResource TextAreaBorder}" MinimumHeightRequest="96">
+              <Editor Text="{Binding Bio}" Placeholder="What you're good at, how long you've done it" MaxLength="{x:Static contracts:Limits.BioMaxLength}" />
+            </Border>
+          </VerticalStackLayout>
+          <VerticalStackLayout Spacing="10">
+            <Label Text="Languages you speak" Style="{StaticResource Muted}" />
+            <FlexLayout Wrap="Wrap" BindableLayout.ItemsSource="{Binding Languages}" BindableLayout.ItemTemplate="{StaticResource ChipTemplate}" />
+          </VerticalStackLayout>
+        </VerticalStackLayout>
+
+        <!-- Step 2: What you do -->
+        <VerticalStackLayout Spacing="20" IsVisible="{Binding IsStep2}">
+          <VerticalStackLayout Spacing="10">
+            <Label Text="Services you offer" Style="{StaticResource Muted}" />
+            <FlexLayout Wrap="Wrap" Margin="-4" BindableLayout.ItemsSource="{Binding Categories}" BindableLayout.ItemTemplate="{StaticResource CategoryChipTemplate}" />
+          </VerticalStackLayout>
+          <VerticalStackLayout Spacing="10" IsVisible="{Binding HasSkills}">
+            <Label Text="Skills" Style="{StaticResource Muted}" />
+            <FlexLayout Wrap="Wrap" BindableLayout.ItemsSource="{Binding Skills}" BindableLayout.ItemTemplate="{StaticResource ChipTemplate}" />
+          </VerticalStackLayout>
+          <Border StrokeShape="RoundRectangle 24" StrokeThickness="0" Background="{StaticResource SurfaceBrush}" Padding="14,12">
+            <Grid ColumnDefinitions="*,Auto">
+              <VerticalStackLayout VerticalOptions="Center">
+                <Label Text="Years of experience" FontFamily="FigtreeBold" FontSize="15" />
+                <Label Text="Shown on your listing" Style="{StaticResource Muted}" />
+              </VerticalStackLayout>
+              <HorizontalStackLayout Grid.Column="1" Spacing="10">
+                <c:IconButton Icon="minus" IconSize="18" WidthRequest="40" HeightRequest="40" Command="{Binding YearsDownCommand}" SemanticProperties.Description="Fewer years" />
+                <Label Text="{Binding Years}" FontFamily="Caprasimo" FontSize="22" MinimumWidthRequest="28" HorizontalTextAlignment="Center" VerticalOptions="Center" />
+                <c:IconButton Icon="plus" IconSize="18" WidthRequest="40" HeightRequest="40" Command="{Binding YearsUpCommand}" SemanticProperties.Description="More years" />
+              </HorizontalStackLayout>
+            </Grid>
+          </Border>
+        </VerticalStackLayout>
+
+        <!-- Step 3: Rate, reach and hours -->
+        <VerticalStackLayout Spacing="20" IsVisible="{Binding IsStep3}">
+          <VerticalStackLayout>
+            <Label Text="Your rate" Style="{StaticResource FieldLabel}" />
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+              <Border Style="{StaticResource InputBorder}" MinimumHeightRequest="50" Padding="16,0">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="4">
+                  <Label Text="₹" FontFamily="FigtreeBold" FontSize="17" VerticalOptions="Center" />
+                  <Entry Grid.Column="1" Text="{Binding Rate}" Placeholder="350" Keyboard="Numeric" MaxLength="5" />
+                </Grid>
+              </Border>
+              <Border Grid.Column="1" StrokeShape="RoundRectangle 24" Stroke="{StaticResource DividerBrush}" StrokeThickness="1" Padding="0">
+                <HorizontalStackLayout BindableLayout.ItemsSource="{Binding Units}" BindableLayout.ItemTemplate="{StaticResource SegmentTemplate}" />
+              </Border>
+            </Grid>
+          </VerticalStackLayout>
+
+          <Border StrokeShape="RoundRectangle 24" StrokeThickness="0" Background="{StaticResource SurfaceBrush}" Padding="16,14">
+            <VerticalStackLayout Spacing="8">
+              <Grid ColumnDefinitions="*,Auto">
+                <Label Text="Service radius" FontFamily="FigtreeBold" FontSize="15" VerticalOptions="End" />
+                <Label Grid.Column="1" Text="{Binding RadiusText}" FontFamily="Caprasimo" FontSize="20" TextColor="{StaticResource Accent700}" />
+              </Grid>
+              <!-- Limits.RadiusMinKm..RadiusMaxKm (Slider needs doubles). Maximum first: Slider rejects a Minimum that is not below the current Maximum. -->
+              <Slider Maximum="15" Minimum="1" Value="{Binding Radius}" />
+              <Label Text="{Binding RadiusCaption}" Style="{StaticResource Muted}" />
+            </VerticalStackLayout>
+          </Border>
+
+          <VerticalStackLayout Spacing="10">
+            <Label Text="Days you work" Style="{StaticResource Muted}" />
+            <FlexLayout Wrap="NoWrap" Margin="-2.5,0" BindableLayout.ItemsSource="{Binding Days}" BindableLayout.ItemTemplate="{StaticResource FillChipTemplate}" />
+          </VerticalStackLayout>
+
+          <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+            <VerticalStackLayout>
+              <Label Text="From" Style="{StaticResource FieldLabel}" />
+              <Border Style="{StaticResource InputBorder}" MinimumHeightRequest="48">
+                <Picker ItemsSource="{Binding Hours}" SelectedItem="{Binding FromHour}" Title="From" />
+              </Border>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="1">
+              <Label Text="To" Style="{StaticResource FieldLabel}" />
+              <Border Style="{StaticResource InputBorder}" MinimumHeightRequest="48">
+                <Picker ItemsSource="{Binding Hours}" SelectedItem="{Binding ToHour}" Title="To" />
+              </Border>
+            </VerticalStackLayout>
+          </Grid>
+        </VerticalStackLayout>
+
+        <!-- Step 4: Verify and showcase -->
+        <VerticalStackLayout Spacing="20" IsVisible="{Binding IsStep4}">
+          <VerticalStackLayout Spacing="10">
+            <HorizontalStackLayout Spacing="8">
+              <c:IconView Icon="shield" Size="20" Color="{StaticResource Sage700}" />
+              <Label Text="ID verification" FontFamily="FigtreeBold" FontSize="15" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+            <FlexLayout Wrap="NoWrap" Margin="-2.5,0" BindableLayout.ItemsSource="{Binding IdTypes}" BindableLayout.ItemTemplate="{StaticResource FillChipTemplate}" />
+            <Border HeightRequest="170" StrokeShape="RoundRectangle 28" StrokeThickness="0" Background="{StaticResource Neutral200Brush}"
+                    SemanticProperties.Description="Add a photo of your ID">
+              <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding PickPhotoCommand}" CommandParameter="{x:Static contracts:PhotoSlot.IdFront}" />
+              </Border.GestureRecognizers>
+              <VerticalStackLayout Spacing="8" HorizontalOptions="Center" VerticalOptions="Center">
+                <c:IconView Icon="camera" Size="28" Color="{StaticResource Neutral700}" />
+                <Label Text="Photo of your ID (front)" FontSize="12" TextColor="{StaticResource Neutral700}">
+                  <Label.Triggers>
+                    <DataTrigger TargetType="Label" Binding="{Binding HasIdDocument}" Value="True">
+                      <Setter Property="Text" Value="ID uploaded · tap to replace" />
+                      <Setter Property="TextColor" Value="{StaticResource Sage800}" />
+                    </DataTrigger>
+                  </Label.Triggers>
+                </Label>
+              </VerticalStackLayout>
+            </Border>
+            <Label Text="Only used to verify you. Customers see a &quot;ID verified&quot; badge, never the document." FontSize="12.5" LineHeight="1.45"
+                   TextColor="{StaticResource Neutral700}" />
+          </VerticalStackLayout>
+          <VerticalStackLayout Spacing="10">
+            <Label Text="Photos of your work" FontFamily="FigtreeBold" FontSize="15" />
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8" HeightRequest="110">
+              <c:WashedImage Source="{Binding WorkPhoto1}" CornerRadius="20" Placeholder="Add">
+                <c:WashedImage.GestureRecognizers>
+                  <TapGestureRecognizer Command="{Binding PickPhotoCommand}" CommandParameter="{x:Static contracts:PhotoSlot.Work1}" />
+                </c:WashedImage.GestureRecognizers>
+              </c:WashedImage>
+              <c:WashedImage Grid.Column="1" Source="{Binding WorkPhoto2}" CornerRadius="20" Placeholder="Add">
+                <c:WashedImage.GestureRecognizers>
+                  <TapGestureRecognizer Command="{Binding PickPhotoCommand}" CommandParameter="{x:Static contracts:PhotoSlot.Work2}" />
+                </c:WashedImage.GestureRecognizers>
+              </c:WashedImage>
+              <c:WashedImage Grid.Column="2" Source="{Binding WorkPhoto3}" CornerRadius="20" Placeholder="Add">
+                <c:WashedImage.GestureRecognizers>
+                  <TapGestureRecognizer Command="{Binding PickPhotoCommand}" CommandParameter="{x:Static contracts:PhotoSlot.Work3}" />
+                </c:WashedImage.GestureRecognizers>
+              </c:WashedImage>
+            </Grid>
+          </VerticalStackLayout>
+        </VerticalStackLayout>
+        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{StaticResource Accent}" />
+      </VerticalStackLayout>
+    </ScrollView>
+
+    <Border Grid.Row="2" Style="{StaticResource BottomBar}">
+      <VerticalStackLayout Spacing="6">
+        <Button Text="{Binding CtaText}" Style="{StaticResource PrimaryButton}" HeightRequest="54" Command="{Binding NextCommand}" />
+        <Label Text="{Binding Hint}" Style="{StaticResource Muted}" HorizontalTextAlignment="Center" />
+      </VerticalStackLayout>
+    </Border>
+  </Grid>
+</pages:BasePage>

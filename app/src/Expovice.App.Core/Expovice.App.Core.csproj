@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- View models, services and the API client. No MAUI references, so everything here unit-tests on plain net10.0. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Expovice.App.Core</RootNamespace>
+    <!-- CA1822: view-model members are data-bound, so they must stay instance members even when constant. -->
+    <NoWarn>$(NoWarn);CA1822</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Expovice.Contracts\Expovice.Contracts.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" />
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Expovice.App.Core.Tests" />
+  </ItemGroup>
+</Project>

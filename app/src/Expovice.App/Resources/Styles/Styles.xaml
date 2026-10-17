@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Component layer of the Organic design system translated to MAUI: type, buttons, inputs, cards, tags, chips.
+     Sizes/radii follow Expovice App.dc.html. -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:ui="clr-namespace:Expovice.App.Core.Ui;assembly=Expovice.App.Core"
+                    xmlns:c="clr-namespace:Expovice.App.Controls"
+                    xmlns:conv="clr-namespace:Expovice.App.Converters">
+
+  <conv:ColorKeyConverter x:Key="ColorKey" />
+
+  <!-- ========== Type ========== -->
+  <Style TargetType="Label">
+    <Setter Property="FontFamily" Value="Figtree" />
+    <Setter Property="FontSize" Value="15" />
+    <Setter Property="TextColor" Value="{StaticResource Text}" />
+  </Style>
+  <Style x:Key="Heading" TargetType="Label">
+    <Setter Property="FontFamily" Value="Caprasimo" />
+    <Setter Property="FontSize" Value="32" />
+    <Setter Property="LineHeight" Value="1.08" />
+    <Setter Property="TextColor" Value="{StaticResource Text}" />
+  </Style>
+  <Style x:Key="H30" TargetType="Label" BasedOn="{StaticResource Heading}">
+    <Setter Property="FontSize" Value="30" />
+  </Style>
+  <Style x:Key="H24" TargetType="Label" BasedOn="{StaticResource Heading}">
+    <Setter Property="FontSize" Value="24" />
+    <Setter Property="LineHeight" Value="1.1" />
+  </Style>
+  <Style x:Key="H20" TargetType="Label" BasedOn="{StaticResource Heading}">
+    <Setter Property="FontSize" Value="20" />
+  </Style>
+  <Style x:Key="H18" TargetType="Label" BasedOn="{StaticResource Heading}">
+    <Setter Property="FontSize" Value="18" />
+  </Style>
+  <Style x:Key="Body" TargetType="Label">
+    <Setter Property="FontSize" Value="16" />
+    <Setter Property="LineHeight" Value="1.5" />
+    <Setter Property="TextColor" Value="{StaticResource Neutral800}" />
+  </Style>
+  <Style x:Key="Sub" TargetType="Label">
+    <Setter Property="FontSize" Value="15" />
+    <Setter Property="TextColor" Value="{StaticResource Neutral800}" />
+  </Style>
+  <Style x:Key="Muted" TargetType="Label">
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="TextColor" Value="{StaticResource Neutral700}" />
+  </Style>
+  <Style x:Key="Strong" TargetType="Label">
+    <Setter Property="FontFamily" Value="FigtreeBold" />
+  </Style>
+  <Style x:Key="SemiBold" TargetType="Label">
+    <Setter Property="FontFamily" Value="FigtreeSemiBold" />
+  </Style>
+  <!-- .field > label -->
+  <Style x:Key="FieldLabel" TargetType="Label">
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="TextColor" Value="{StaticResource TextMuted}" />
+    <Setter Property="Margin" Value="0,0,0,5" />
+  </Style>
+  <Style x:Key="Kicker" TargetType="Label">
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="FontFamily" Value="FigtreeBold" />
+    <Setter Property="CharacterSpacing" Value="1.1" />
+  </Style>
+
+  <!-- ========== Buttons (.btn) ========== -->
+  <Style x:Key="ButtonBase" TargetType="Button">
+    <Setter Property="FontFamily" Value="Caprasimo" />
+    <Setter Property="FontSize" Value="16" />
+    <Setter Property="HeightRequest" Value="52" />
+    <Setter Property="CornerRadius" Value="27" />
+    <Setter Property="Padding" Value="28,0" />
+    <Setter Property="BorderWidth" Value="1" />
+  </Style>
+  <Style x:Key="PrimaryButton" TargetType="Button" BasedOn="{StaticResource ButtonBase}">
+    <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
+    <Setter Property="BorderColor" Value="{StaticResource Accent}" />
+    <Setter Property="TextColor" Value="{StaticResource Bg}" />
+    <Setter Property="VisualStateManager.VisualStateGroups">
+      <VisualStateGroupList>
+        <VisualStateGroup x:Name="CommonStates">
+          <VisualState x:Name="Normal" />
+          <VisualState x:Name="Pressed">
+            <VisualState.Setters>
+              <Setter Property="BackgroundColor" Value="{StaticResource Accent700}" />
+            </VisualState.Setters>
+          </VisualState>
+          <VisualState x:Name="Disabled">
+            <VisualState.Setters>
+              <Setter Property="Opacity" Value="0.45" />
+              <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
+              <Setter Property="TextColor" Value="{StaticResource Bg}" />
+            </VisualState.Setters>
+          </VisualState>
+        </VisualStateGroup>
+      </VisualStateGroupList>
+    </Setter>
+  </Style>
+  <Style x:Key="SecondaryButton" TargetType="Button" BasedOn="{StaticResource ButtonBase}">
+    <Setter Property="BackgroundColor" Value="Transparent" />
+    <Setter Property="BorderColor" Value="{StaticResource Divider}" />
+    <Setter Property="TextColor" Value="{StaticResource Text}" />
+    <Setter Property="VisualStateManager.VisualStateGroups">
+      <VisualStateGroupList>
+        <VisualStateGroup x:Name="CommonStates">
+          <VisualState x:Name="Normal" />
+          <VisualState x:Name="Pressed">
+            <VisualState.Setters>
+              <Setter Property="BackgroundColor" Value="{StaticResource Neutral300}" />
+            </VisualState.Setters>
+          </VisualState>
+          <VisualState x:Name="Disabled">
+            <VisualState.Setters>
+              <Setter Property="Opacity" Value="0.45" />
+            </VisualState.Setters>
+          </VisualState>
+        </VisualStateGroup>
+      </VisualStateGroupList>
+    </Setter>
+  </Style>
+  <!-- .btn-ghost, body-font variant used for inline actions (Skip, Save & exit, Edit, Change, Resend) -->
+  <Style x:Key="GhostButton" TargetType="Button">
+    <Setter Property="FontFamily" Value="FigtreeBold" />
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="TextColor" Value="{StaticResource Accent}" />
+    <Setter Property="BackgroundColor" Value="Transparent" />
+    <Setter Property="BorderWidth" Value="0" />
+    <Setter Property="Padding" Value="6,0" />
+    <Setter Property="HeightRequest" Value="36" />
+    <Setter Property="CornerRadius" Value="18" />
+  </Style>
+
+  <!-- ========== Inputs (.input) — a pill Border hosting a borderless Entry/Editor ========== -->
+  <Style x:Key="InputBorder" TargetType="Border">
+    <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+    <Setter Property="Stroke" Value="{StaticResource DividerBrush}" />
+    <Setter Property="StrokeThickness" Value="1" />
+    <Setter Property="StrokeShape" Value="RoundRectangle 26" />
+    <Setter Property="Padding" Value="14,0" />
+    <Setter Property="MinimumHeightRequest" Value="52" />
+  </Style>
+  <Style x:Key="TextAreaBorder" TargetType="Border" BasedOn="{StaticResource InputBorder}">
+    <Setter Property="StrokeShape" Value="RoundRectangle 24" />
+    <Setter Property="Padding" Value="12,6" />
+  </Style>
+  <Style TargetType="Entry">
+    <Setter Property="FontFamily" Value="Figtree" />
+    <Setter Property="FontSize" Value="17" />
+    <Setter Property="TextColor" Value="{StaticResource Text}" />
+    <Setter Property="PlaceholderColor" Value="{StaticResource Neutral600}" />
+    <Setter Property="BackgroundColor" Value="Transparent" />
+    <Setter Property="VerticalOptions" Value="Center" />
+  </Style>
+  <Style TargetType="Editor">
+    <Setter Property="FontFamily" Value="Figtree" />
+    <Setter Property="FontSize" Value="15" />
+    <Setter Property="TextColor" Value="{StaticResource Text}" />
+    <Setter Property="PlaceholderColor" Value="{StaticResource Neutral600}" />
+    <Setter Property="BackgroundColor" Value="Transparent" />
+    <Setter Property="AutoSize" Value="TextChanges" />
+  </Style>
+  <Style TargetType="Picker">
+    <Setter Property="FontFamily" Value="Figtree" />
+    <Setter Property="FontSize" Value="15" />
+    <Setter Property="TextColor" Value="{StaticResource Text}" />
+    <Setter Property="BackgroundColor" Value="Transparent" />
+  </Style>
+  <Style TargetType="Slider">
+    <Setter Property="MinimumTrackColor" Value="{StaticResource Accent}" />
+    <Setter Property="MaximumTrackColor" Value="{StaticResource Neutral300}" />
+    <Setter Property="ThumbColor" Value="{StaticResource Accent}" />
+  </Style>
+  <Style TargetType="ScrollView">
+    <Setter Property="VerticalScrollBarVisibility" Value="Never" />
+    <Setter Property="HorizontalScrollBarVisibility" Value="Never" />
+  </Style>
+
+  <!-- ========== Surfaces ========== -->
+  <Style x:Key="Card" TargetType="Border">
+    <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+    <Setter Property="StrokeThickness" Value="0" />
+    <Setter Property="StrokeShape" Value="RoundRectangle 30" />
+    <Setter Property="Padding" Value="14" />
+  </Style>
+  <Style x:Key="StatTile" TargetType="Border">
+    <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+    <Setter Property="StrokeThickness" Value="0" />
+    <Setter Property="StrokeShape" Value="RoundRectangle 24" />
+    <Setter Property="Padding" Value="12,14" />
+  </Style>
+  <!-- Sticky bottom action bar (detail, request, setup) -->
+  <Style x:Key="BottomBar" TargetType="Border">
+    <Setter Property="Background" Value="{StaticResource BgBrush}" />
+    <Setter Property="StrokeThickness" Value="0" />
+    <Setter Property="Padding" Value="20,14,20,20" />
+    <Setter Property="Shadow">
+      <Shadow Brush="{StaticResource Neutral900Brush}" Offset="0,-6" Radius="20" Opacity="0.1" />
+    </Setter>
+  </Style>
+
+  <!-- ========== Tags (.tag) ========== -->
+  <Style x:Key="Tag" TargetType="Border">
+    <Setter Property="StrokeThickness" Value="0" />
+    <Setter Property="StrokeShape" Value="RoundRectangle 999" />
+    <Setter Property="Padding" Value="10,3" />
+    <Setter Property="HorizontalOptions" Value="Start" />
+    <Setter Property="VerticalOptions" Value="Center" />
+  </Style>
+  <Style x:Key="TagNeutral" TargetType="Border" BasedOn="{StaticResource Tag}">
+    <Setter Property="Background" Value="{StaticResource Neutral100Brush}" />
+    <Setter Property="Padding" Value="8,2" />
+  </Style>
+  <Style x:Key="TagLabel" TargetType="Label">
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="FontFamily" Value="FigtreeSemiBold" />
+  </Style>
+
+  <!-- ========== Chips: one style pair drives every selectable pill (DRY) ========== -->
+  <Style x:Key="ChipBorder" TargetType="Border">
+    <Setter Property="Background" Value="{StaticResource Neutral100Brush}" />
+    <Setter Property="Stroke" Value="{StaticResource DividerBrush}" />
+    <Setter Property="StrokeThickness" Value="1" />
+    <Setter Property="StrokeShape" Value="RoundRectangle 999" />
+    <Setter Property="HeightRequest" Value="40" />
+    <Setter Property="Padding" Value="15,0" />
+    <Style.Triggers>
+      <DataTrigger TargetType="Border" Binding="{Binding IsSelected, x:DataType=ui:SelectableItem}" Value="True">
+        <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+        <Setter Property="Stroke" Value="{StaticResource AccentBrush}" />
+      </DataTrigger>
+    </Style.Triggers>
+  </Style>
+  <Style x:Key="ChipLabel" TargetType="Label">
+    <Setter Property="FontSize" Value="13.5" />
+    <Setter Property="TextColor" Value="{StaticResource Text}" />
+    <Setter Property="HorizontalOptions" Value="Center" />
+    <Setter Property="VerticalOptions" Value="Center" />
+    <Setter Property="HorizontalTextAlignment" Value="Center" />
+    <Style.Triggers>
+      <DataTrigger TargetType="Label" Binding="{Binding IsSelected, x:DataType=ui:SelectableItem}" Value="True">
+        <Setter Property="TextColor" Value="{StaticResource Bg}" />
+      </DataTrigger>
+    </Style.Triggers>
+  </Style>
+  <Style x:Key="ChipIcon" TargetType="c:IconView">
+    <Setter Property="Color" Value="{StaticResource Text}" />
+    <Setter Property="Size" Value="20" />
+    <Style.Triggers>
+      <DataTrigger TargetType="c:IconView" Binding="{Binding IsSelected, x:DataType=ui:SelectableItem}" Value="True">
+        <Setter Property="Color" Value="{StaticResource Bg}" />
+      </DataTrigger>
+    </Style.Triggers>
+  </Style>
+
+  <!-- Wrapping pill (skills, languages, setup skills) -->
+  <DataTemplate x:Key="ChipTemplate" x:DataType="ui:SelectableItem">
+    <Border Style="{StaticResource ChipBorder}" Margin="0,0,8,8">
+      <Border.GestureRecognizers>
+        <TapGestureRecognizer Command="{Binding SelectCommand}" />
+      </Border.GestureRecognizers>
+      <Label Text="{Binding Label}" Style="{StaticResource ChipLabel}" />
+    </Border>
+  </DataTemplate>
+
+  <!-- Listing sort/filter chips: 38px, semibold 13 -->
+  <DataTemplate x:Key="FilterChipTemplate" x:DataType="ui:SelectableItem">
+    <Border Style="{StaticResource ChipBorder}" HeightRequest="38" Margin="0,0,8,0">
+      <Border.GestureRecognizers>
+        <TapGestureRecognizer Command="{Binding SelectCommand}" />
+      </Border.GestureRecognizers>
+      <Label Text="{Binding Label}" Style="{StaticResource ChipLabel}" FontSize="13" FontFamily="FigtreeSemiBold" />
+    </Border>
+  </DataTemplate>
+
+  <!-- Equal-width pill in a no-wrap FlexLayout (working days, ID type) -->
+  <DataTemplate x:Key="FillChipTemplate" x:DataType="ui:SelectableItem">
+    <ContentView FlexLayout.Grow="1" FlexLayout.Basis="0" Padding="2.5,0">
+      <Border Style="{StaticResource ChipBorder}" HeightRequest="44" Padding="0">
+        <Border.GestureRecognizers>
+          <TapGestureRecognizer Command="{Binding SelectCommand}" />
+        </Border.GestureRecognizers>
+        <Label Text="{Binding Label}" Style="{StaticResource ChipLabel}" FontSize="12.5" FontFamily="FigtreeSemiBold" />
+      </Border>
+    </ContentView>
+  </DataTemplate>
+
+  <!-- Three-per-row time slots -->
+  <DataTemplate x:Key="SlotChipTemplate" x:DataType="ui:SelectableItem">
+    <ContentView FlexLayout.Basis="33.33%" Padding="4">
+      <Border Style="{StaticResource ChipBorder}" HeightRequest="42" Padding="0">
+        <Border.GestureRecognizers>
+          <TapGestureRecognizer Command="{Binding SelectCommand}" />
+        </Border.GestureRecognizers>
+        <Label Text="{Binding Label}" Style="{StaticResource ChipLabel}" FontSize="13" />
+      </Border>
+    </ContentView>
+  </DataTemplate>
+
+  <!-- Request "When?" day buttons: caption over bold date, 62px, radius 22 -->
+  <DataTemplate x:Key="DayChipTemplate" x:DataType="ui:SelectableItem">
+    <ContentView FlexLayout.Grow="1" FlexLayout.Basis="0" Padding="4,0">
+      <Border Style="{StaticResource ChipBorder}" HeightRequest="62" StrokeShape="RoundRectangle 22" Padding="0">
+        <Border.GestureRecognizers>
+          <TapGestureRecognizer Command="{Binding SelectCommand}" />
+        </Border.GestureRecognizers>
+        <VerticalStackLayout Spacing="1" VerticalOptions="Center">
+          <Label Text="{Binding Caption}" Style="{StaticResource ChipLabel}" FontSize="11.5" />
+          <Label Text="{Binding Label}" Style="{StaticResource ChipLabel}" FontSize="15" FontFamily="FigtreeBold" />
+        </VerticalStackLayout>
+      </Border>
+    </ContentView>
+  </DataTemplate>
+
+  <!-- Setup step 2 service cards: two per row, icon + label -->
+  <DataTemplate x:Key="CategoryChipTemplate" x:DataType="ui:SelectableItem">
+    <ContentView FlexLayout.Basis="50%" Padding="4">
+      <Border Style="{StaticResource ChipBorder}" HeightRequest="56" StrokeShape="RoundRectangle 22" Padding="12,0">
+        <Border.GestureRecognizers>
+          <TapGestureRecognizer Command="{Binding SelectCommand}" />
+        </Border.GestureRecognizers>
+        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+          <c:IconView Icon="{Binding Icon}" Style="{StaticResource ChipIcon}" />
+          <Label Text="{Binding Label}" Style="{StaticResource ChipLabel}" FontFamily="FigtreeSemiBold" HorizontalOptions="Start" />
+        </HorizontalStackLayout>
+      </Border>
+    </ContentView>
+  </DataTemplate>
+
+  <!-- Segmented control option (Per visit / Per hour) -->
+  <DataTemplate x:Key="SegmentTemplate" x:DataType="ui:SelectableItem">
+    <Border Style="{StaticResource ChipBorder}" HeightRequest="48" StrokeThickness="0" StrokeShape="Rectangle" Padding="14,0">
+      <Border.GestureRecognizers>
+        <TapGestureRecognizer Command="{Binding SelectCommand}" />
+      </Border.GestureRecognizers>
+      <Label Text="{Binding Label}" Style="{StaticResource ChipLabel}" FontSize="13" />
+    </Border>
+  </DataTemplate>
+
+  <!-- Skill tag (neutral) used in provider cards -->
+  <DataTemplate x:Key="SkillTagTemplate" x:DataType="x:String">
+    <Border Style="{StaticResource TagNeutral}" Margin="0,0,4,4">
+      <Label Text="{Binding .}" Style="{StaticResource TagLabel}" FontFamily="Figtree" TextColor="{StaticResource Neutral800}" />
+    </Border>
+  </DataTemplate>
+
+  <!-- Larger skill tag on provider detail -->
+  <DataTemplate x:Key="SkillTagLargeTemplate" x:DataType="x:String">
+    <Border Style="{StaticResource TagNeutral}" Padding="12,6" Margin="0,0,6,6">
+      <Label Text="{Binding .}" FontSize="13" TextColor="{StaticResource Neutral800}" />
+    </Border>
+  </DataTemplate>
+</ResourceDictionary>

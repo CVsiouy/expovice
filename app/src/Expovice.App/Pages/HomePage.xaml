@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- HOME: location, greeting, search, 4-column category grid, earn banner, top rated near you. -->
+<pages:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:pages="clr-namespace:Expovice.App.Pages"
+                xmlns:c="clr-namespace:Expovice.App.Controls"
+                xmlns:abs="clr-namespace:Expovice.App.Core.Abstractions;assembly=Expovice.App.Core"
+                xmlns:vm="clr-namespace:Expovice.App.Core.ViewModels;assembly=Expovice.App.Core"
+                x:Class="Expovice.App.Pages.HomePage"
+                x:DataType="vm:HomeViewModel">
+  <Grid RowDefinitions="*,Auto">
+    <ScrollView>
+      <VerticalStackLayout Padding="0,6,0,24">
+        <!-- Location + bell -->
+        <Grid ColumnDefinitions="40,*,44" ColumnSpacing="10" Padding="20,6,20,0">
+          <Border WidthRequest="40" HeightRequest="40" StrokeShape="RoundRectangle 20" StrokeThickness="0" Background="{StaticResource Accent100Brush}">
+            <c:IconView Icon="pin" Size="20" Color="{StaticResource Accent700}" />
+          </Border>
+          <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+            <HorizontalStackLayout Spacing="4">
+              <Label Text="Home" FontFamily="FigtreeBold" FontSize="15" />
+              <c:IconView Icon="chevD" Size="16" Color="{StaticResource Text}" />
+            </HorizontalStackLayout>
+            <Label Text="{Binding AddressLine}" Style="{StaticResource Muted}" LineBreakMode="TailTruncation" MaxLines="1" />
+          </VerticalStackLayout>
+          <Grid Grid.Column="2">
+            <c:IconButton Icon="bell" IconSize="20" SemanticProperties.Description="Notifications" />
+            <BoxView WidthRequest="8" HeightRequest="8" CornerRadius="4" Color="{StaticResource Accent}"
+                     HorizontalOptions="End" VerticalOptions="Start" Margin="0,10,11,0" InputTransparent="True" />
+          </Grid>
+        </Grid>
+
+        <Label Text="{Binding Greeting}" Style="{StaticResource H30}" Padding="20,22,20,0" />
+
+        <!-- Search -->
+        <Border Style="{StaticResource InputBorder}" Background="{StaticResource Neutral100Brush}" Margin="20,16,20,0" Padding="16,0">
+          <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+            <c:IconView Icon="search" Size="20" Color="{StaticResource Neutral700}" />
+            <Entry Grid.Column="1" Text="{Binding Query}" Placeholder="Search electrician, plumber…" FontSize="15" ClearButtonVisibility="WhileEditing" />
+          </Grid>
+        </Border>
+
+        <Grid ColumnDefinitions="*,Auto" Padding="20,24,20,12">
+          <Label Text="Services" Style="{StaticResource H20}" />
+          <Label Grid.Column="1" Text="{Binding RadiusText}" Style="{StaticResource Muted}" VerticalOptions="End" />
+        </Grid>
+
+        <!-- 4-column category grid -->
+        <FlexLayout Wrap="Wrap" Padding="16,0" BindableLayout.ItemsSource="{Binding Categories}">
+          <BindableLayout.ItemTemplate>
+            <DataTemplate x:DataType="vm:CategoryTile">
+              <ContentView FlexLayout.Basis="25%" Padding="4,0,4,14">
+                <VerticalStackLayout Spacing="8" SemanticProperties.Description="{Binding Name}">
+                  <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenCommand}" />
+                  </VerticalStackLayout.GestureRecognizers>
+                  <Border WidthRequest="72" HeightRequest="72" StrokeShape="RoundRectangle 36" StrokeThickness="0"
+                          Background="{Binding BackgroundKey, Converter={StaticResource ColorKey}}">
+                    <c:IconView Icon="{Binding Icon}" Size="30" Color="{Binding ForegroundKey, Converter={StaticResource ColorKey}}" />
+                  </Border>
+                  <Label Text="{Binding Name}" FontFamily="FigtreeSemiBold" FontSize="12.5" LineHeight="1.2" HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+              </ContentView>
+            </DataTemplate>
+          </BindableLayout.ItemTemplate>
+        </FlexLayout>
+        <Label Text="{Binding NoMatchText}" IsVisible="{Binding HasNoCategories}" FontSize="14" TextColor="{StaticResource Neutral700}" Padding="20,8" />
+
+        <!-- Earn / listed banner -->
+        <Border Margin="16,12,16,0" StrokeShape="RoundRectangle 32" StrokeThickness="0" Background="{StaticResource Sage200Brush}" Padding="22">
+          <Grid>
+            <BoxView WidthRequest="150" HeightRequest="150" CornerRadius="75" Color="{StaticResource Sage300}"
+                     HorizontalOptions="End" VerticalOptions="Start" Margin="0,-72,-62,0" />
+            <VerticalStackLayout Spacing="10">
+              <Label Text="{Binding BannerKicker}" Style="{StaticResource Kicker}" TextColor="{StaticResource Sage800}" TextTransform="Uppercase" />
+              <Label Text="{Binding BannerTitle}" FontFamily="Caprasimo" FontSize="22" LineHeight="1.12" MaximumWidthRequest="240"
+                     HorizontalOptions="Start" TextColor="{StaticResource Sage900}" />
+              <Button Text="{Binding BannerCta}" Style="{StaticResource PrimaryButton}" HeightRequest="44" Padding="20,0" CornerRadius="22"
+                      BackgroundColor="{StaticResource Sage700}" BorderColor="{StaticResource Sage700}" HorizontalOptions="Start"
+                      Command="{Binding BannerCommand}" />
+            </VerticalStackLayout>
+          </Grid>
+        </Border>
+
+        <Label Text="Top rated near you" Style="{StaticResource H20}" Padding="20,26,20,12" />
+        <ScrollView Orientation="Horizontal">
+          <HorizontalStackLayout Spacing="12" Padding="20,0,20,4" BindableLayout.ItemsSource="{Binding TopPros}">
+            <BindableLayout.ItemTemplate>
+              <DataTemplate x:DataType="vm:ProviderItem">
+                <Border WidthRequest="150" StrokeShape="RoundRectangle 28" StrokeThickness="0" Background="{StaticResource SurfaceBrush}" Padding="12">
+                  <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenCommand}" />
+                  </Border.GestureRecognizers>
+                  <VerticalStackLayout Spacing="8">
+                    <c:WashedImage Source="{Binding PhotoUrl}" CornerRadius="20" Placeholder="Face photo" WidthRequest="126" HeightRequest="110" />
+                    <Label Text="{Binding Name}" FontFamily="FigtreeBold" FontSize="14" LineHeight="1.2" />
+                    <Label Text="{Binding CategoryAndDistance}" Style="{StaticResource Muted}" />
+                    <HorizontalStackLayout Spacing="4">
+                      <c:IconView Icon="star" Filled="True" Size="14" Color="{StaticResource Accent700}" />
+                      <Label Text="{Binding RatingText}" FontFamily="FigtreeBold" FontSize="13" TextColor="{StaticResource Accent700}" />
+                    </HorizontalStackLayout>
+                  </VerticalStackLayout>
+                </Border>
+              </DataTemplate>
+            </BindableLayout.ItemTemplate>
+          </HorizontalStackLayout>
+        </ScrollView>
+        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{StaticResource Accent}" Margin="0,12" />
+      </VerticalStackLayout>
+    </ScrollView>
+
+    <c:TabBarView Grid.Row="1" Selected="{x:Static abs:Routes.Home}" />
+  </Grid>
+</pages:BasePage>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- CREATE ACCOUNT: "What should we call you?" -->
+<pages:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:pages="clr-namespace:Expovice.App.Pages"
+                xmlns:c="clr-namespace:Expovice.App.Controls"
+                xmlns:vm="clr-namespace:Expovice.App.Core.ViewModels;assembly=Expovice.App.Core"
+                x:Class="Expovice.App.Pages.NamePage"
+                x:DataType="vm:NameViewModel">
+  <Grid RowDefinitions="*,Auto" Padding="28,20,28,24">
+    <VerticalStackLayout Spacing="22">
+      <Border WidthRequest="64" HeightRequest="64" StrokeShape="RoundRectangle 32" StrokeThickness="0"
+              Background="{StaticResource Sage200Brush}" HorizontalOptions="Start">
+        <c:IconView Icon="user" Size="28" Color="{StaticResource Sage800}" />
+      </Border>
+      <VerticalStackLayout Spacing="8">
+        <Label Text="What should we call you?" Style="{StaticResource Heading}" />
+        <Label Text="Pros see your first name when you send a request." Style="{StaticResource Sub}" />
+      </VerticalStackLayout>
+      <VerticalStackLayout>
+        <Label Text="Full name" Style="{StaticResource FieldLabel}" />
+        <Border Style="{StaticResource InputBorder}">
+          <Entry Text="{Binding Name}" Placeholder="Your name" MaxLength="{Binding MaxLength}" Keyboard="Text"
+                 ReturnCommand="{Binding CreateAccountCommand}" />
+        </Border>
+      </VerticalStackLayout>
+      <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{StaticResource Accent}" />
+    </VerticalStackLayout>
+    <Button Grid.Row="1" Text="Create account" Style="{StaticResource PrimaryButton}" Command="{Binding CreateAccountCommand}" />
+  </Grid>
+</pages:BasePage>

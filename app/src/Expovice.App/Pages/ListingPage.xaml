@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- CATEGORY LISTING: pros within the radius, sort/filter chips. -->
+<pages:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:pages="clr-namespace:Expovice.App.Pages"
+                xmlns:c="clr-namespace:Expovice.App.Controls"
+                xmlns:vm="clr-namespace:Expovice.App.Core.ViewModels;assembly=Expovice.App.Core"
+                x:Class="Expovice.App.Pages.ListingPage"
+                x:DataType="vm:ListingViewModel">
+  <Grid RowDefinitions="Auto,*">
+    <Border StrokeThickness="0" Background="{StaticResource BgBrush}" Padding="16,6,16,12" ZIndex="2">
+      <Border.Shadow>
+        <Shadow Brush="{StaticResource ShadowColorBrush}" Offset="0,1" Radius="2" Opacity="0.14" />
+      </Border.Shadow>
+      <VerticalStackLayout Spacing="12">
+        <Grid ColumnDefinitions="44,*" ColumnSpacing="12">
+          <c:IconButton Icon="chevL" Command="{Binding BackCommand}" SemanticProperties.Description="Back" />
+          <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+            <Label Text="{Binding Title}" Style="{StaticResource H24}" />
+            <Label Text="{Binding Subtitle}" Style="{StaticResource Muted}" />
+          </VerticalStackLayout>
+        </Grid>
+        <ScrollView Orientation="Horizontal">
+          <HorizontalStackLayout BindableLayout.ItemsSource="{Binding Chips}" BindableLayout.ItemTemplate="{StaticResource FilterChipTemplate}" />
+        </ScrollView>
+      </VerticalStackLayout>
+    </Border>
+
+    <ScrollView Grid.Row="1">
+      <VerticalStackLayout Padding="16,14,16,40" Spacing="12">
+        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{StaticResource Accent}" />
+        <VerticalStackLayout Spacing="12" BindableLayout.ItemsSource="{Binding Items}">
+          <BindableLayout.ItemTemplate>
+            <DataTemplate x:DataType="vm:ProviderItem">
+              <Border Style="{StaticResource Card}">
+                <Border.GestureRecognizers>
+                  <TapGestureRecognizer Command="{Binding OpenCommand}" />
+                </Border.GestureRecognizers>
+                <Grid ColumnDefinitions="84,*" ColumnSpacing="14">
+                  <c:WashedImage Source="{Binding PhotoUrl}" IsCircle="True" Placeholder="Face" WidthRequest="84" HeightRequest="84" VerticalOptions="Start" />
+                  <VerticalStackLayout Grid.Column="1" Spacing="6">
+                    <HorizontalStackLayout Spacing="6">
+                      <Label Text="{Binding Name}" FontFamily="FigtreeBold" FontSize="16" LineHeight="1.2" />
+                      <c:IconView Icon="shield" Size="16" Color="{StaticResource Sage700}" IsVisible="{Binding IsVerified}" />
+                    </HorizontalStackLayout>
+                    <FlexLayout Wrap="Wrap" BindableLayout.ItemsSource="{Binding Skills}" BindableLayout.ItemTemplate="{StaticResource SkillTagTemplate}" />
+                    <HorizontalStackLayout Spacing="10">
+                      <HorizontalStackLayout Spacing="3">
+                        <c:IconView Icon="star" Filled="True" Size="14" Color="{StaticResource Accent700}" />
+                        <Label Text="{Binding RatingText}" FontFamily="FigtreeBold" FontSize="12.5" TextColor="{StaticResource Accent700}" />
+                      </HorizontalStackLayout>
+                      <Label Text="{Binding RequestsText}" FontSize="12.5" TextColor="{StaticResource Neutral800}" />
+                      <Label Text="{Binding DistanceText}" FontSize="12.5" TextColor="{StaticResource Neutral800}" />
+                    </HorizontalStackLayout>
+                    <Grid ColumnDefinitions="*,Auto">
+                      <Label FontSize="14" VerticalOptions="Center">
+                        <Label.FormattedText>
+                          <FormattedString>
+                            <Span Text="{Binding RateText}" FontFamily="FigtreeBold" />
+                            <Span Text="{Binding UnitText}" TextColor="{StaticResource Neutral700}" />
+                          </FormattedString>
+                        </Label.FormattedText>
+                      </Label>
+                      <Border Grid.Column="1" Style="{StaticResource Tag}" Background="{Binding AvailabilityBackgroundKey, Converter={StaticResource ColorKey}}">
+                        <Label Text="{Binding AvailabilityText}" Style="{StaticResource TagLabel}" TextColor="{Binding AvailabilityForegroundKey, Converter={StaticResource ColorKey}}" />
+                      </Border>
+                    </Grid>
+                  </VerticalStackLayout>
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </BindableLayout.ItemTemplate>
+        </VerticalStackLayout>
+
+        <VerticalStackLayout IsVisible="{Binding IsEmpty}" Padding="12,40" Spacing="10">
+          <Label Text="No pros match these filters" Style="{StaticResource H20}" />
+          <Button Text="Clear filters" Style="{StaticResource SecondaryButton}" FontSize="14" HeightRequest="44" HorizontalOptions="Start" Command="{Binding ClearFiltersCommand}" />
+        </VerticalStackLayout>
+        <Label Text="{Binding BeyondText}" IsVisible="{Binding HasBeyond}" Style="{StaticResource Muted}" Padding="6,4" />
+      </VerticalStackLayout>
+    </ScrollView>
+  </Grid>
+</pages:BasePage>

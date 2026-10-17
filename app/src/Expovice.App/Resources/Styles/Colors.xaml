@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Organic design-system tokens (_ds/organic/styles.css). "Sage" = the accent-2 ramp.
+     Keys match Expovice.App.Core.Ui.ColorKeys so view models can refer to colors by name. -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+  <!-- Roles -->
+  <Color x:Key="Bg">#F5EAD8</Color>
+  <Color x:Key="Surface">#EBDDC5</Color>
+  <Color x:Key="Text">#201E1D</Color>
+  <Color x:Key="Accent">#C67139</Color>
+  <Color x:Key="Sage">#7A8A5E</Color>
+  <!-- divider: text color at 16% -->
+  <Color x:Key="Divider">#29201E1D</Color>
+  <!-- field labels: text color at 70% -->
+  <Color x:Key="TextMuted">#B3201E1D</Color>
+
+  <!-- Neutral ramp -->
+  <Color x:Key="Neutral100">#F9F4ED</Color>
+  <Color x:Key="Neutral200">#EEE7DB</Color>
+  <Color x:Key="Neutral300">#DCD3C4</Color>
+  <Color x:Key="Neutral400">#C0B6A5</Color>
+  <Color x:Key="Neutral500">#A19786</Color>
+  <Color x:Key="Neutral600">#82796A</Color>
+  <Color x:Key="Neutral700">#645C50</Color>
+  <Color x:Key="Neutral800">#474238</Color>
+  <Color x:Key="Neutral900">#2E2B25</Color>
+
+  <!-- Accent (terracotta) ramp -->
+  <Color x:Key="Accent100">#FFF2EB</Color>
+  <Color x:Key="Accent200">#FFE1D0</Color>
+  <Color x:Key="Accent300">#FFC6A5</Color>
+  <Color x:Key="Accent400">#F6A06B</Color>
+  <Color x:Key="Accent500">#D67F48</Color>
+  <Color x:Key="Accent600">#B2622D</Color>
+  <Color x:Key="Accent700">#8C491A</Color>
+  <Color x:Key="Accent800">#643312</Color>
+  <Color x:Key="Accent900">#402310</Color>
+
+  <!-- Sage (accent-2) ramp -->
+  <Color x:Key="Sage100">#F0FAE1</Color>
+  <Color x:Key="Sage200">#E1EECC</Color>
+  <Color x:Key="Sage300">#CCDBB2</Color>
+  <Color x:Key="Sage400">#AEBF92</Color>
+  <Color x:Key="Sage500">#8FA073</Color>
+  <Color x:Key="Sage600">#728157</Color>
+  <Color x:Key="Sage700">#56633F</Color>
+  <Color x:Key="Sage800">#3D472B</Color>
+  <Color x:Key="Sage900">#272E1B</Color>
+
+  <!-- shadow-md / shadow-lg base color -->
+  <Color x:Key="ShadowColor">#2E2B25</Color>
+
+  <!-- Brush twins (Border.Background / Stroke take Brush, not Color) -->
+  <SolidColorBrush x:Key="BgBrush" Color="{StaticResource Bg}" />
+  <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource Surface}" />
+  <SolidColorBrush x:Key="TextBrush" Color="{StaticResource Text}" />
+  <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource Accent}" />
+  <SolidColorBrush x:Key="SageBrush" Color="{StaticResource Sage}" />
+  <SolidColorBrush x:Key="DividerBrush" Color="{StaticResource Divider}" />
+  <SolidColorBrush x:Key="TextMutedBrush" Color="{StaticResource TextMuted}" />
+  <SolidColorBrush x:Key="Neutral100Brush" Color="{StaticResource Neutral100}" />
+  <SolidColorBrush x:Key="Neutral200Brush" Color="{StaticResource Neutral200}" />
+  <SolidColorBrush x:Key="Neutral300Brush" Color="{StaticResource Neutral300}" />
+  <SolidColorBrush x:Key="Neutral400Brush" Color="{StaticResource Neutral400}" />
+  <SolidColorBrush x:Key="Neutral500Brush" Color="{StaticResource Neutral500}" />
+  <SolidColorBrush x:Key="Neutral600Brush" Color="{StaticResource Neutral600}" />
+  <SolidColorBrush x:Key="Neutral700Brush" Color="{StaticResource Neutral700}" />
+  <SolidColorBrush x:Key="Neutral800Brush" Color="{StaticResource Neutral800}" />
+  <SolidColorBrush x:Key="Neutral900Brush" Color="{StaticResource Neutral900}" />
+  <SolidColorBrush x:Key="Accent100Brush" Color="{StaticResource Accent100}" />
+  <SolidColorBrush x:Key="Accent200Brush" Color="{StaticResource Accent200}" />
+  <SolidColorBrush x:Key="Accent300Brush" Color="{StaticResource Accent300}" />
+  <SolidColorBrush x:Key="Accent400Brush" Color="{StaticResource Accent400}" />
+  <SolidColorBrush x:Key="Accent500Brush" Color="{StaticResource Accent500}" />
+  <SolidColorBrush x:Key="Accent600Brush" Color="{StaticResource Accent600}" />
+  <SolidColorBrush x:Key="Accent700Brush" Color="{StaticResource Accent700}" />
+  <SolidColorBrush x:Key="Accent800Brush" Color="{StaticResource Accent800}" />
+  <SolidColorBrush x:Key="Accent900Brush" Color="{StaticResource Accent900}" />
+  <SolidColorBrush x:Key="Sage100Brush" Color="{StaticResource Sage100}" />
+  <SolidColorBrush x:Key="Sage200Brush" Color="{StaticResource Sage200}" />
+  <SolidColorBrush x:Key="Sage300Brush" Color="{StaticResource Sage300}" />
+  <SolidColorBrush x:Key="Sage400Brush" Color="{StaticResource Sage400}" />
+  <SolidColorBrush x:Key="Sage500Brush" Color="{StaticResource Sage500}" />
+  <SolidColorBrush x:Key="Sage600Brush" Color="{StaticResource Sage600}" />
+  <SolidColorBrush x:Key="Sage700Brush" Color="{StaticResource Sage700}" />
+  <SolidColorBrush x:Key="Sage800Brush" Color="{StaticResource Sage800}" />
+  <SolidColorBrush x:Key="Sage900Brush" Color="{StaticResource Sage900}" />
+  <SolidColorBrush x:Key="ShadowColorBrush" Color="{StaticResource ShadowColor}" />
+</ResourceDictionary>

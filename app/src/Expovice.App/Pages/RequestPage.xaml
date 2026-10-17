@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- REQUEST SERVICE: what, note, when (day + slot), address, sticky send bar. -->
+<pages:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:pages="clr-namespace:Expovice.App.Pages"
+                xmlns:c="clr-namespace:Expovice.App.Controls"
+                xmlns:vm="clr-namespace:Expovice.App.Core.ViewModels;assembly=Expovice.App.Core"
+                x:Class="Expovice.App.Pages.RequestPage"
+                x:DataType="vm:RequestViewModel">
+  <Grid RowDefinitions="Auto,*,Auto">
+    <Grid ColumnDefinitions="44,*" ColumnSpacing="12" Padding="20,6,20,6">
+      <c:IconButton Icon="chevL" Command="{Binding BackCommand}" SemanticProperties.Description="Back" />
+      <Label Grid.Column="1" Text="Request service" Style="{StaticResource H24}" VerticalOptions="Center" />
+    </Grid>
+
+    <ScrollView Grid.Row="1">
+      <VerticalStackLayout Padding="20,14,20,24" Spacing="20">
+        <Border StrokeShape="RoundRectangle 28" StrokeThickness="0" Background="{StaticResource SurfaceBrush}" Padding="12">
+          <Grid ColumnDefinitions="52,*,Auto" ColumnSpacing="12">
+            <c:WashedImage Source="{Binding PhotoUrl}" IsCircle="True" Placeholder="Face" WidthRequest="52" HeightRequest="52" />
+            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+              <Label Text="{Binding ProviderName}" FontFamily="FigtreeBold" />
+              <Label Text="{Binding ProviderCaption}" FontSize="12.5" TextColor="{StaticResource Neutral700}" />
+            </VerticalStackLayout>
+            <HorizontalStackLayout Grid.Column="2" Spacing="3" VerticalOptions="Center">
+              <c:IconView Icon="star" Filled="True" Size="14" Color="{StaticResource Accent700}" />
+              <Label Text="{Binding RatingText}" FontFamily="FigtreeBold" TextColor="{StaticResource Accent700}" />
+            </HorizontalStackLayout>
+          </Grid>
+        </Border>
+
+        <VerticalStackLayout Spacing="10">
+          <Label Text="What do you need?" FontFamily="FigtreeBold" FontSize="15" />
+          <FlexLayout Wrap="Wrap" BindableLayout.ItemsSource="{Binding Skills}" BindableLayout.ItemTemplate="{StaticResource ChipTemplate}" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout>
+          <Label Text="Describe the problem (optional)" Style="{StaticResource FieldLabel}" />
+          <Border Style="{StaticResource TextAreaBorder}" MinimumHeightRequest="84">
+            <Editor Text="{Binding Note}" Placeholder="e.g. Kitchen tap leaking since morning" MaxLength="{Binding NoteMaxLength}" />
+          </Border>
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Spacing="10">
+          <Label Text="When?" FontFamily="FigtreeBold" FontSize="15" />
+          <FlexLayout Wrap="NoWrap" Margin="-4,0" BindableLayout.ItemsSource="{Binding Days}" BindableLayout.ItemTemplate="{StaticResource DayChipTemplate}" />
+          <FlexLayout Wrap="Wrap" Margin="-4" BindableLayout.ItemsSource="{Binding Slots}" BindableLayout.ItemTemplate="{StaticResource SlotChipTemplate}" />
+        </VerticalStackLayout>
+
+        <Border StrokeShape="RoundRectangle 24" Stroke="{StaticResource DividerBrush}" StrokeThickness="1" Padding="14">
+          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+            <c:IconView Icon="pin" Size="20" Color="{StaticResource Accent700}" />
+            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+              <Label Text="{Binding AddressLabel}" FontFamily="FigtreeBold" FontSize="14" />
+              <Label Text="{Binding AddressLine}" FontSize="12.5" TextColor="{StaticResource Neutral700}" />
+            </VerticalStackLayout>
+            <Button Grid.Column="2" Text="Change" Style="{StaticResource GhostButton}" FontSize="13" />
+          </Grid>
+        </Border>
+      </VerticalStackLayout>
+    </ScrollView>
+
+    <Border Grid.Row="2" Style="{StaticResource BottomBar}">
+      <VerticalStackLayout Spacing="8">
+        <Button Text="{Binding SendText}" Style="{StaticResource PrimaryButton}" HeightRequest="54" Command="{Binding SendCommand}" />
+        <Label Text="{Binding Hint}" Style="{StaticResource Muted}" HorizontalTextAlignment="Center" />
+      </VerticalStackLayout>
+    </Border>
+  </Grid>
+</pages:BasePage>

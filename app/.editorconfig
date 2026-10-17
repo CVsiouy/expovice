@@ -1,0 +1,40 @@
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+charset = utf-8
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{xml,xaml,csproj,props,json,bicep,yml,yaml}]
+indent_size = 2
+
+[*.cs]
+csharp_style_namespace_declarations = file_scoped:warning
+csharp_style_var_for_built_in_types = true:suggestion
+csharp_style_var_when_type_is_apparent = true:suggestion
+dotnet_style_readonly_field = true:warning
+# Library-style ConfigureAwait noise is not useful in ASP.NET Core / MAUI view-model code.
+dotnet_diagnostic.CA2007.severity = none
+# Logging via source-generated LoggerMessage is used in hot paths; plain ILogger calls are fine elsewhere.
+dotnet_diagnostic.CA1848.severity = none
+dotnet_diagnostic.CA1873.severity = none
+# DTO records expose IReadOnlyList<T>; that is intentional.
+dotnet_diagnostic.CA1002.severity = none
+# Tests and view models use underscores / async void event handlers by convention.
+dotnet_diagnostic.CA1707.severity = none
+# String-typed URLs are what HttpClient / ImageSource bindings want.
+dotnet_diagnostic.CA1056.severity = none
+dotnet_diagnostic.CA1054.severity = none
+dotnet_diagnostic.CA1055.severity = none
+# Globalization: the app targets en-IN explicitly where it matters.
+dotnet_diagnostic.CA1305.severity = none
+dotnet_diagnostic.CA1304.severity = none
+dotnet_diagnostic.CA1311.severity = none
+dotnet_diagnostic.CA1310.severity = none
+dotnet_diagnostic.CA1307.severity = none
+dotnet_diagnostic.CA1309.severity = none
+# Types are instantiated by DI / EF Core.
+dotnet_diagnostic.CA1812.severity = none

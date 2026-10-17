@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Expovice.Api/Expovice.Api.csproj" />
+    <Project Path="src/Expovice.App.Core/Expovice.App.Core.csproj" />
+    <Project Path="src/Expovice.App/Expovice.App.csproj" />
+    <Project Path="src/Expovice.Contracts/Expovice.Contracts.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Expovice.Api.Tests/Expovice.Api.Tests.csproj" />
+    <Project Path="tests/Expovice.App.Core.Tests/Expovice.App.Core.Tests.csproj" />
+  </Folder>
+</Solution>

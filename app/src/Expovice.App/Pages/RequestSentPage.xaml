@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- REQUEST SENT: pop-in check, summary, next steps. -->
+<pages:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:pages="clr-namespace:Expovice.App.Pages"
+                xmlns:c="clr-namespace:Expovice.App.Controls"
+                xmlns:vm="clr-namespace:Expovice.App.Core.ViewModels;assembly=Expovice.App.Core"
+                x:Class="Expovice.App.Pages.RequestSentPage"
+                x:DataType="vm:RequestSentViewModel">
+  <Grid RowDefinitions="*,Auto" Padding="28,70,28,24">
+    <VerticalStackLayout Spacing="18">
+      <Border x:Name="CheckBadge" WidthRequest="96" HeightRequest="96" StrokeShape="RoundRectangle 48" StrokeThickness="0"
+              Background="{StaticResource Sage500Brush}" HorizontalOptions="Start">
+        <c:IconView Icon="check" Size="44" Color="{StaticResource Bg}" />
+      </Border>
+      <Label Text="{Binding Title}" Style="{StaticResource Heading}" FontSize="34" />
+      <Label Text="{Binding Body}" Style="{StaticResource Body}" />
+      <Border StrokeShape="RoundRectangle 28" StrokeThickness="0" Background="{StaticResource SurfaceBrush}" Padding="16">
+        <VerticalStackLayout Spacing="6">
+          <Grid ColumnDefinitions="*,Auto">
+            <Label Text="Service" FontSize="14" TextColor="{StaticResource Neutral700}" />
+            <Label Grid.Column="1" Text="{Binding Skill}" FontSize="14" FontFamily="FigtreeBold" />
+          </Grid>
+          <Grid ColumnDefinitions="*,Auto">
+            <Label Text="When" FontSize="14" TextColor="{StaticResource Neutral700}" />
+            <Label Grid.Column="1" Text="{Binding When}" FontSize="14" FontFamily="FigtreeBold" />
+          </Grid>
+          <Grid ColumnDefinitions="*,Auto">
+            <Label Text="Rate" FontSize="14" TextColor="{StaticResource Neutral700}" />
+            <Label Grid.Column="1" Text="{Binding RateText}" FontSize="14" FontFamily="FigtreeBold" />
+          </Grid>
+        </VerticalStackLayout>
+      </Border>
+    </VerticalStackLayout>
+    <VerticalStackLayout Grid.Row="1" Spacing="10">
+      <Button Text="View my requests" Style="{StaticResource PrimaryButton}" HeightRequest="54" Command="{Binding ViewRequestsCommand}" />
+      <Button Text="Back to home" Style="{StaticResource SecondaryButton}" HeightRequest="54" Command="{Binding HomeCommand}" />
+    </VerticalStackLayout>
+  </Grid>
+</pages:BasePage>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>LSRequiresIPhoneOS</key>
+  <true/>
+  <key>UIDeviceFamily</key>
+  <array>
+    <integer>1</integer>
+  </array>
+  <key>UIRequiredDeviceCapabilities</key>
+  <array>
+    <string>arm64</string>
+  </array>
+  <key>UISupportedInterfaceOrientations</key>
+  <array>
+    <string>UIInterfaceOrientationPortrait</string>
+  </array>
+  <key>XSAppIconAssets</key>
+  <string>Assets.xcassets/appicon.appiconset</string>
+  <!-- Lets CommunityToolkit's StatusBarBehavior set light/dark status bar text per page. -->
+  <key>UIViewControllerBasedStatusBarAppearance</key>
+  <false/>
+  <key>NSLocationWhenInUseUsageDescription</key>
+  <string>Expovice shows pros near your home, so it needs your location while you use the app.</string>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>Add a profile photo, photos of your work and your ID for verification.</string>
+  <key>NSCameraUsageDescription</key>
+  <string>Take a profile photo or a photo of your work.</string>
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleURLName</key>
+      <string>app.expovice.mobile</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>expovice</string>
+      </array>
+    </dict>
+  </array>
+  <key>NSAppTransportSecurity</key>
+  <dict>
+    <!-- Simulator dev API over http://localhost only. -->
+    <key>NSAllowsLocalNetworking</key>
+    <true/>
+  </dict>
+</dict>
+</plist>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- PROVIDER DETAIL: hero photo, stats, about, skills, hours, recent work, sticky price + request bar. -->
+<pages:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:pages="clr-namespace:Expovice.App.Pages"
+                xmlns:c="clr-namespace:Expovice.App.Controls"
+                xmlns:vm="clr-namespace:Expovice.App.Core.ViewModels;assembly=Expovice.App.Core"
+                x:Class="Expovice.App.Pages.ProviderDetailPage"
+                x:DataType="vm:ProviderDetailViewModel">
+  <Grid RowDefinitions="*,Auto">
+    <ScrollView>
+      <VerticalStackLayout Padding="0,0,0,24">
+        <Grid HeightRequest="330">
+          <c:WashedImage Source="{Binding PhotoUrl}" CornerRadius="0,0,44,44" Placeholder="Face photo" />
+          <c:IconButton Icon="chevL" Command="{Binding BackCommand}" Background="{StaticResource BgBrush}" StrokeThickness="0"
+                        HorizontalOptions="Start" VerticalOptions="Start" Margin="16,8,0,0" SemanticProperties.Description="Back">
+            <c:IconButton.Shadow>
+              <Shadow Brush="{StaticResource ShadowColorBrush}" Offset="0,3" Radius="10" Opacity="0.16" />
+            </c:IconButton.Shadow>
+          </c:IconButton>
+        </Grid>
+
+        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{StaticResource Accent}" Margin="0,16" />
+
+        <VerticalStackLayout IsVisible="{Binding IsLoaded}">
+          <VerticalStackLayout Padding="20,20,20,0" Spacing="6">
+            <HorizontalStackLayout Spacing="6">
+              <Border Style="{StaticResource Tag}" Background="{StaticResource Accent100Brush}">
+                <Label Text="{Binding CategoryName}" Style="{StaticResource TagLabel}" TextColor="{StaticResource Accent800}" />
+              </Border>
+              <Border Style="{StaticResource Tag}" Background="{StaticResource Sage100Brush}" IsVisible="{Binding IsVerified}">
+                <HorizontalStackLayout Spacing="4">
+                  <c:IconView Icon="shield" Size="14" Color="{StaticResource Sage800}" />
+                  <Label Text="ID verified" Style="{StaticResource TagLabel}" TextColor="{StaticResource Sage800}" />
+                </HorizontalStackLayout>
+              </Border>
+            </HorizontalStackLayout>
+            <Label Text="{Binding Name}" Style="{StaticResource Heading}" />
+            <Label Text="{Binding Subtitle}" FontSize="14" TextColor="{StaticResource Neutral700}" />
+          </VerticalStackLayout>
+
+          <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8" Padding="16,18,16,0">
+            <Border Style="{StaticResource StatTile}" Background="{StaticResource Accent100Brush}">
+              <VerticalStackLayout Spacing="2">
+                <Label>
+                  <Label.FormattedText>
+                    <FormattedString>
+                      <Span Text="{Binding RatingText}" FontFamily="Caprasimo" FontSize="24" TextColor="{StaticResource Accent700}" />
+                      <Span Text="/5" FontSize="13" TextColor="{StaticResource Accent800}" />
+                    </FormattedString>
+                  </Label.FormattedText>
+                </Label>
+                <Label Text="Rating" FontSize="12" TextColor="{StaticResource Accent800}" />
+              </VerticalStackLayout>
+            </Border>
+            <Border Grid.Column="1" Style="{StaticResource StatTile}">
+              <VerticalStackLayout Spacing="2">
+                <Label Text="{Binding RequestCount}" FontFamily="Caprasimo" FontSize="24" />
+                <Label Text="Requests" Style="{StaticResource Muted}" />
+              </VerticalStackLayout>
+            </Border>
+            <Border Grid.Column="2" Style="{StaticResource StatTile}">
+              <VerticalStackLayout Spacing="2">
+                <Label Text="{Binding YearsText}" FontFamily="Caprasimo" FontSize="24" />
+                <Label Text="Experience" Style="{StaticResource Muted}" />
+              </VerticalStackLayout>
+            </Border>
+          </Grid>
+
+          <VerticalStackLayout Padding="20,22,20,0" Spacing="8">
+            <Label Text="About" Style="{StaticResource H18}" />
+            <Label Text="{Binding Bio}" FontSize="15" LineHeight="1.55" TextColor="{StaticResource Neutral800}" />
+          </VerticalStackLayout>
+
+          <VerticalStackLayout Padding="20,20,20,0" Spacing="10">
+            <Label Text="Skills" Style="{StaticResource H18}" />
+            <FlexLayout Wrap="Wrap" BindableLayout.ItemsSource="{Binding Skills}" BindableLayout.ItemTemplate="{StaticResource SkillTagLargeTemplate}" />
+          </VerticalStackLayout>
+
+          <Border Margin="16,14,16,0" Padding="16,14" StrokeShape="RoundRectangle 24" StrokeThickness="0" Background="{StaticResource Sage100Brush}">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+              <c:IconView Icon="clock" Size="22" Color="{StaticResource Sage800}" />
+              <VerticalStackLayout Grid.Column="1">
+                <Label Text="{Binding AvailabilityTitle}" FontFamily="FigtreeBold" FontSize="14" TextColor="{StaticResource Sage800}" />
+                <Label Text="{Binding HoursText}" FontSize="13" TextColor="{StaticResource Sage800}" />
+              </VerticalStackLayout>
+            </Grid>
+          </Border>
+
+          <VerticalStackLayout Padding="20,22,20,0" Spacing="10">
+            <Label Text="Recent work" Style="{StaticResource H18}" />
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8" HeightRequest="110">
+              <c:WashedImage Source="{Binding WorkPhoto1}" CornerRadius="20" Placeholder="Work photo" />
+              <c:WashedImage Grid.Column="1" Source="{Binding WorkPhoto2}" CornerRadius="20" Placeholder="Work photo" />
+              <c:WashedImage Grid.Column="2" Source="{Binding WorkPhoto3}" CornerRadius="20" Placeholder="Work photo" />
+            </Grid>
+          </VerticalStackLayout>
+        </VerticalStackLayout>
+      </VerticalStackLayout>
+    </ScrollView>
+
+    <Border Grid.Row="1" Style="{StaticResource BottomBar}" IsVisible="{Binding IsLoaded}">
+      <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+        <VerticalStackLayout VerticalOptions="Center">
+          <Label Text="{Binding RateText}" FontFamily="Caprasimo" FontSize="22" />
+          <Label Text="{Binding PriceCaption}" Style="{StaticResource Muted}" />
+        </VerticalStackLayout>
+        <Button Grid.Column="1" Text="Request service" Style="{StaticResource PrimaryButton}" HeightRequest="54" Command="{Binding RequestServiceCommand}" />
+      </Grid>
+    </Border>
+  </Grid>
+</pages:BasePage>

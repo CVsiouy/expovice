@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- PROFILE: photo, name, phone, role tag, shortcuts, sign out. -->
+<pages:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:pages="clr-namespace:Expovice.App.Pages"
+                xmlns:c="clr-namespace:Expovice.App.Controls"
+                xmlns:abs="clr-namespace:Expovice.App.Core.Abstractions;assembly=Expovice.App.Core"
+                xmlns:vm="clr-namespace:Expovice.App.Core.ViewModels;assembly=Expovice.App.Core"
+                x:Class="Expovice.App.Pages.ProfilePage"
+                x:DataType="vm:ProfileViewModel">
+  <Grid RowDefinitions="*,Auto">
+    <ScrollView>
+      <VerticalStackLayout Padding="16,14,16,24" Spacing="14">
+        <Grid ColumnDefinitions="84,*" ColumnSpacing="16" Padding="4,6">
+          <c:WashedImage Source="{Binding PhotoUrl}" IsCircle="True" Placeholder="You" WidthRequest="84" HeightRequest="84"
+                         SemanticProperties.Description="Change profile photo">
+            <c:WashedImage.GestureRecognizers>
+              <TapGestureRecognizer Command="{Binding ChangePhotoCommand}" />
+            </c:WashedImage.GestureRecognizers>
+          </c:WashedImage>
+          <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+            <Label Text="{Binding DisplayName}" Style="{StaticResource H24}" />
+            <Label Text="{Binding PhoneText}" FontSize="13" TextColor="{StaticResource Neutral700}" />
+            <Border Style="{StaticResource Tag}" Margin="0,6,0,0" Background="{Binding TagBackgroundKey, Converter={StaticResource ColorKey}}">
+              <Label Text="{Binding TagText}" Style="{StaticResource TagLabel}" FontFamily="FigtreeBold"
+                     TextColor="{Binding TagForegroundKey, Converter={StaticResource ColorKey}}" />
+            </Border>
+          </VerticalStackLayout>
+        </Grid>
+
+        <Border StrokeShape="RoundRectangle 30" StrokeThickness="0" Background="{StaticResource SurfaceBrush}" Padding="6">
+          <VerticalStackLayout BindableLayout.ItemsSource="{Binding Rows}">
+            <BindableLayout.ItemTemplate>
+              <DataTemplate x:DataType="vm:ProfileRow">
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" Padding="14" SemanticProperties.Description="{Binding Label}">
+                  <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Command}" />
+                  </Grid.GestureRecognizers>
+                  <c:IconView Icon="{Binding Icon}" Size="20" Color="{StaticResource Accent700}" />
+                  <Label Grid.Column="1" Text="{Binding Label}" FontFamily="FigtreeSemiBold" FontSize="15" VerticalOptions="Center" />
+                  <c:IconView Grid.Column="2" Icon="chevR" Size="18" Color="{StaticResource Neutral600}" />
+                </Grid>
+              </DataTemplate>
+            </BindableLayout.ItemTemplate>
+          </VerticalStackLayout>
+        </Border>
+
+        <Border HeightRequest="50" StrokeShape="RoundRectangle 25" Stroke="{StaticResource DividerBrush}" StrokeThickness="1" SemanticProperties.Description="Sign out">
+          <Border.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding SignOutCommand}" />
+          </Border.GestureRecognizers>
+          <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+            <c:IconView Icon="logout" Size="18" Color="{StaticResource Text}" />
+            <Label Text="Sign out" FontFamily="Caprasimo" FontSize="14" VerticalOptions="Center" />
+          </HorizontalStackLayout>
+        </Border>
+      </VerticalStackLayout>
+    </ScrollView>
+
+    <c:TabBarView Grid.Row="1" Selected="{x:Static abs:Routes.Profile}" />
+  </Grid>
+</pages:BasePage>

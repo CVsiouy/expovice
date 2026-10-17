@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Shared by the API and the MAUI app so DTOs, routes and the service catalog are defined once. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
+</Project>

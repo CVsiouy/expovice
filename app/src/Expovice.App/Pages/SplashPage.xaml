@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- SPLASH: terracotta ground, three soft circles, wordmark bottom-left. Tap skips the 1.8 s wait. -->
+<pages:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:pages="clr-namespace:Expovice.App.Pages"
+                xmlns:vm="clr-namespace:Expovice.App.Core.ViewModels;assembly=Expovice.App.Core"
+                x:Class="Expovice.App.Pages.SplashPage"
+                x:DataType="vm:SplashViewModel">
+  <Grid IsClippedToBounds="True">
+    <Grid.GestureRecognizers>
+      <TapGestureRecognizer Command="{Binding SkipCommand}" />
+    </Grid.GestureRecognizers>
+    <BoxView WidthRequest="420" HeightRequest="420" CornerRadius="210" Color="{StaticResource Accent500}"
+             HorizontalOptions="End" VerticalOptions="Start" Margin="0,-120,-180,0" />
+    <BoxView WidthRequest="220" HeightRequest="220" CornerRadius="110" Color="{StaticResource Sage500}"
+             HorizontalOptions="End" VerticalOptions="Start" Margin="0,210,-60,0" />
+    <BoxView WidthRequest="90" HeightRequest="90" CornerRadius="45" Color="{StaticResource Accent300}"
+             HorizontalOptions="Start" VerticalOptions="Start" Margin="40,150,0,0" />
+    <VerticalStackLayout VerticalOptions="End" Margin="32,0,32,120" Spacing="10">
+      <Label Text="expovice" FontFamily="Caprasimo" FontSize="58" TextColor="{StaticResource Bg}" />
+      <Label Text="Trusted hands for home services, right around the corner." FontSize="17"
+             TextColor="{StaticResource Accent100}" MaximumWidthRequest="260" HorizontalOptions="Start" />
+    </VerticalStackLayout>
+  </Grid>
+</pages:BasePage>

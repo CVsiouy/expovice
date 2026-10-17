@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- MY REQUESTS: bookings with status, cancel and 5-star rating. -->
+<pages:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:pages="clr-namespace:Expovice.App.Pages"
+                xmlns:c="clr-namespace:Expovice.App.Controls"
+                xmlns:abs="clr-namespace:Expovice.App.Core.Abstractions;assembly=Expovice.App.Core"
+                xmlns:vm="clr-namespace:Expovice.App.Core.ViewModels;assembly=Expovice.App.Core"
+                x:Class="Expovice.App.Pages.MyRequestsPage"
+                x:DataType="vm:MyRequestsViewModel">
+  <Grid RowDefinitions="*,Auto">
+    <ScrollView>
+      <VerticalStackLayout Padding="16,14,16,24" Spacing="12">
+        <Label Text="My requests" Style="{StaticResource H30}" Padding="4,0" />
+        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{StaticResource Accent}" />
+        <Label Text="No requests yet. Find a pro on Home." IsVisible="{Binding IsEmpty}" FontSize="14" TextColor="{StaticResource Neutral700}" Padding="4,0" />
+
+        <VerticalStackLayout Spacing="12" BindableLayout.ItemsSource="{Binding Items}">
+          <BindableLayout.ItemTemplate>
+            <DataTemplate x:DataType="vm:RequestItem">
+              <Border Style="{StaticResource Card}">
+                <VerticalStackLayout Spacing="12">
+                  <Grid ColumnDefinitions="52,*,Auto" ColumnSpacing="12">
+                    <c:WashedImage Source="{Binding ProviderPhotoUrl}" IsCircle="True" Placeholder="Face" WidthRequest="52" HeightRequest="52" />
+                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                      <Label Text="{Binding ProviderName}" FontFamily="FigtreeBold" />
+                      <Label Text="{Binding Subtitle}" FontSize="12.5" TextColor="{StaticResource Neutral700}" />
+                    </VerticalStackLayout>
+                    <Border Grid.Column="2" Style="{StaticResource Tag}" Background="{Binding StatusBackgroundKey, Converter={StaticResource ColorKey}}">
+                      <Label Text="{Binding StatusText}" Style="{StaticResource TagLabel}" FontFamily="FigtreeBold"
+                             TextColor="{Binding StatusForegroundKey, Converter={StaticResource ColorKey}}" />
+                    </Border>
+                  </Grid>
+                  <HorizontalStackLayout Spacing="8">
+                    <c:IconView Icon="clock" Size="16" Color="{StaticResource Neutral800}" />
+                    <Label Text="{Binding WhenText}" FontSize="13" TextColor="{StaticResource Neutral800}" VerticalOptions="Center" />
+                  </HorizontalStackLayout>
+                  <Button Text="Cancel request" Style="{StaticResource SecondaryButton}" FontSize="14" HeightRequest="40" CornerRadius="20" Padding="16,0"
+                          HorizontalOptions="Start" IsVisible="{Binding CanCancel}" Command="{Binding CancelCommand}" />
+                  <HorizontalStackLayout Spacing="10" IsVisible="{Binding CanRate}">
+                    <Label Text="{Binding RateLabel}" FontSize="13" TextColor="{StaticResource Neutral700}" VerticalOptions="Center" />
+                    <HorizontalStackLayout Spacing="2" BindableLayout.ItemsSource="{Binding Stars}">
+                      <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="vm:StarItem">
+                          <ContentView Padding="2" SemanticProperties.Description="{Binding Value, StringFormat='{0} stars'}">
+                            <ContentView.GestureRecognizers>
+                              <TapGestureRecognizer Command="{Binding PickCommand}" />
+                            </ContentView.GestureRecognizers>
+                            <c:IconView Icon="star" Filled="True" Size="26" Color="{Binding ColorKey, Converter={StaticResource ColorKey}}" />
+                          </ContentView>
+                        </DataTemplate>
+                      </BindableLayout.ItemTemplate>
+                    </HorizontalStackLayout>
+                  </HorizontalStackLayout>
+                </VerticalStackLayout>
+              </Border>
+            </DataTemplate>
+          </BindableLayout.ItemTemplate>
+        </VerticalStackLayout>
+      </VerticalStackLayout>
+    </ScrollView>
+
+    <c:TabBarView Grid.Row="1" Selected="{x:Static abs:Routes.Requests}" />
+  </Grid>
+</pages:BasePage>

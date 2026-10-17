@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- A rounded lowercase "e" mark in the background color. -->
+<svg width="456" height="456" viewBox="0 0 456 456" xmlns="http://www.w3.org/2000/svg">
+  <path d="M228 128c-62 0-104 45-104 102 0 60 44 98 108 98 34 0 62-10 82-26l-18-34c-16 11-36 18-60 18-34 0-56-16-62-42h146c2-8 2-16 2-24 0-54-38-92-94-92zm-51 82c6-26 26-42 51-42 26 0 44 16 47 42z" fill="#F5EAD8"/>
+</svg>

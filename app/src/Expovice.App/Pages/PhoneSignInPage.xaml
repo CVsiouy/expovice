@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- SIGN IN: +91 mobile number, or Google / Apple. -->
+<pages:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:pages="clr-namespace:Expovice.App.Pages"
+                xmlns:vm="clr-namespace:Expovice.App.Core.ViewModels;assembly=Expovice.App.Core"
+                x:Class="Expovice.App.Pages.PhoneSignInPage"
+                x:DataType="vm:PhoneSignInViewModel">
+  <Grid RowDefinitions="*,Auto" Padding="28,20,28,24">
+    <ScrollView>
+      <VerticalStackLayout Spacing="22">
+        <Label Text="expovice" FontFamily="Caprasimo" FontSize="22" TextColor="{StaticResource Accent700}" />
+        <VerticalStackLayout Spacing="8">
+          <Label Text="Sign in or create an account" Style="{StaticResource Heading}" />
+          <Label Text="We'll text a code to confirm it's you." Style="{StaticResource Sub}" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout>
+          <Label Text="Mobile number" Style="{StaticResource FieldLabel}" />
+          <Grid ColumnDefinitions="76,*" ColumnSpacing="8">
+            <Border Style="{StaticResource InputBorder}">
+              <Label Text="+91" FontFamily="FigtreeSemiBold" HorizontalOptions="Center" VerticalOptions="Center" />
+            </Border>
+            <Border Grid.Column="1" Style="{StaticResource InputBorder}">
+              <Entry Text="{Binding Phone}" Placeholder="98765 43210" Keyboard="Numeric" MaxLength="10" CharacterSpacing="0.7"
+                     ReturnCommand="{Binding ContinueCommand}" SemanticProperties.Description="Mobile number" />
+            </Border>
+          </Grid>
+        </VerticalStackLayout>
+
+        <Button Text="Continue" Style="{StaticResource PrimaryButton}" Command="{Binding ContinueCommand}" />
+
+        <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="12">
+          <BoxView HeightRequest="1" Color="{StaticResource Divider}" VerticalOptions="Center" />
+          <Label Grid.Column="1" Text="or" FontSize="13" TextColor="{StaticResource Neutral700}" />
+          <BoxView Grid.Column="2" HeightRequest="1" Color="{StaticResource Divider}" VerticalOptions="Center" />
+        </Grid>
+
+        <VerticalStackLayout Spacing="10">
+          <!-- Social buttons are Borders because a MAUI Button cannot host the round "G"/"A" badge. -->
+          <Border HeightRequest="52" StrokeShape="RoundRectangle 26" Stroke="{StaticResource DividerBrush}" Background="Transparent"
+                  SemanticProperties.Description="Continue with Google">
+            <Border.GestureRecognizers>
+              <TapGestureRecognizer Command="{Binding GoogleCommand}" />
+            </Border.GestureRecognizers>
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+              <Border WidthRequest="22" HeightRequest="22" StrokeShape="RoundRectangle 11" StrokeThickness="0" Background="{StaticResource Neutral100Brush}" VerticalOptions="Center">
+                <Label Text="G" FontFamily="FigtreeBold" FontSize="13" HorizontalOptions="Center" VerticalOptions="Center" />
+              </Border>
+              <Label Text="Continue with Google" FontFamily="Caprasimo" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+          </Border>
+          <Border HeightRequest="52" StrokeShape="RoundRectangle 26" Stroke="{StaticResource Neutral900Brush}" Background="{StaticResource Neutral900Brush}"
+                  SemanticProperties.Description="Continue with Apple">
+            <Border.GestureRecognizers>
+              <TapGestureRecognizer Command="{Binding AppleCommand}" />
+            </Border.GestureRecognizers>
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+              <Border WidthRequest="22" HeightRequest="22" StrokeShape="RoundRectangle 11" StrokeThickness="0" Background="{StaticResource Neutral700Brush}" VerticalOptions="Center">
+                <Label Text="A" FontFamily="FigtreeBold" FontSize="12" TextColor="{StaticResource Bg}" HorizontalOptions="Center" VerticalOptions="Center" />
+              </Border>
+              <Label Text="Continue with Apple" FontFamily="Caprasimo" TextColor="{StaticResource Bg}" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+          </Border>
+        </VerticalStackLayout>
+        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{StaticResource Accent}" />
+      </VerticalStackLayout>
+    </ScrollView>
+
+    <Label Grid.Row="1" FontSize="12" LineHeight="1.5" TextColor="{StaticResource Neutral700}"
+           Text="By continuing you agree to Expovice's Terms of Service and Privacy Policy." />
+  </Grid>
+</pages:BasePage>

@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/organic-66d7a53a-d2f3-4918-9d1a-cccebe53d29b/styles.css">
+<script src="_ds/organic-66d7a53a-d2f3-4918-9d1a-cccebe53d29b/_ds_bundle.js"></script>
+<script src="./image-slot.js"></script>
+<style>body{margin:0;background:var(--color-neutral-200)}a{color:var(--color-accent-700)}a:hover{color:var(--color-accent-800)}input[type=range]{accent-color:var(--color-accent)}@keyframes ex-pop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-wrap:wrap;gap:48px;justify-content:center;align-items:flex-start;padding:40px 24px;font-family:var(--font-body);color:var(--color-text)">
+
+  <div style="width:240px;display:flex;flex-direction:column;gap:18px;padding-top:12px">
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <div style="font-family:var(--font-heading);font-size:30px;line-height:1;color:var(--color-accent-700)">expovice</div>
+      <div style="font-size:13px;color:var(--color-neutral-700)">Interactive prototype · {{ platformLabel }}</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:4px">Jump to screen</div>
+      <sc-for list="{{ screenMap }}" as="s" hint-placeholder-count="12">
+        <button onClick="{{ s.go }}" style="text-align:left;font:inherit;font-size:13px;padding:7px 12px;border-radius:999px;border:0;cursor:pointer;background:{{ s.bg }};color:{{ s.fg }}" style-hover="background:var(--color-neutral-300)">{{ s.label }}</button>
+      </sc-for>
+    </div>
+    <div style="font-size:12px;line-height:1.5;color:var(--color-neutral-700);text-wrap:pretty">Any 10-digit number and any 4-digit code sign you in. Drop photos onto any face or photo slot to fill it.</div>
+  </div>
+
+  <div style="width:390px;height:844px;flex:none;position:relative;overflow:hidden;background:var(--color-bg);border:11px solid var(--color-neutral-900);border-radius:{{ frameRadius }}px;box-shadow:var(--shadow-lg);box-sizing:content-box">
+
+    <div style="position:absolute;top:0;left:0;right:0;height:50px;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:0 {{ statusPad }}px;font-size:15px;font-weight:600;color:{{ statusColor }};pointer-events:none">
+      <span>9:41</span>
+      <div style="display:flex;align-items:flex-end;gap:6px">
+        <div style="display:flex;align-items:flex-end;gap:2px">
+          <div style="width:3px;height:5px;border-radius:2px;background:currentColor"></div>
+          <div style="width:3px;height:7px;border-radius:2px;background:currentColor"></div>
+          <div style="width:3px;height:9px;border-radius:2px;background:currentColor"></div>
+          <div style="width:3px;height:11px;border-radius:2px;background:currentColor"></div>
+        </div>
+        <div style="width:24px;height:12px;border:1.5px solid currentColor;border-radius:4px;padding:1.5px;box-sizing:border-box"><div style="width:72%;height:100%;border-radius:2px;background:currentColor"></div></div>
+      </div>
+    </div>
+    <sc-if value="{{ isIOS }}" hint-placeholder-val="{{ true }}">
+      <div style="position:absolute;top:11px;left:50%;transform:translateX(-50%);width:122px;height:35px;border-radius:999px;background:var(--color-neutral-900);z-index:31"></div>
+    </sc-if>
+    <sc-if value="{{ isAndroid }}">
+      <div style="position:absolute;top:14px;left:50%;transform:translateX(-50%);width:20px;height:20px;border-radius:50%;background:var(--color-neutral-900);z-index:31"></div>
+    </sc-if>
+
+    <!-- SPLASH -->
+    <sc-if value="{{ is.splash }}" hint-placeholder-val="{{ true }}">
+      <div onClick="{{ toOnboard }}" style="position:absolute;inset:0;background:var(--color-accent);display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:0 32px 120px;overflow:hidden;cursor:pointer">
+        <div style="position:absolute;width:420px;height:420px;border-radius:50%;background:var(--color-accent-500);top:-120px;right:-180px"></div>
+        <div style="position:absolute;width:220px;height:220px;border-radius:50%;background:var(--color-accent-2-500);top:210px;right:-60px"></div>
+        <div style="position:absolute;width:90px;height:90px;border-radius:50%;background:var(--color-accent-300);top:150px;left:40px"></div>
+        <div style="position:relative;font-family:var(--font-heading);font-size:58px;line-height:1;color:var(--color-bg)">expovice</div>
+        <div style="position:relative;font-size:17px;color:var(--color-accent-100);margin-top:10px;max-width:260px">Trusted hands for home services, right around the corner.</div>
+      </div>
+    </sc-if>
+
+    <!-- ONBOARDING -->
+    <sc-if value="{{ is.onboard }}">
+      <div style="position:absolute;inset:0;padding:50px 0 0;display:flex;flex-direction:column">
+        <div style="display:flex;justify-content:flex-end;padding:8px 20px">
+          <button class="btn btn-ghost" onClick="{{ toAuth }}">Skip</button>
+        </div>
+        <div style="position:relative;height:360px;margin:0 24px">
+          <div style="position:absolute;width:280px;height:280px;border-radius:50%;background:{{ ob.bg1 }};left:0;top:30px"></div>
+          <div style="position:absolute;width:150px;height:150px;border-radius:50%;background:{{ ob.bg2 }};right:10px;top:0"></div>
+          <div style="position:absolute;width:70px;height:70px;border-radius:50%;background:var(--color-accent-300);right:60px;bottom:10px"></div>
+          <div style="position:absolute;left:90px;top:120px;width:100px;height:100px;border-radius:50%;background:var(--color-bg);display:grid;place-items:center;color:var(--color-accent-700);box-shadow:var(--shadow-md)">{{ ob.icon }}</div>
+        </div>
+        <div style="padding:28px 28px 0;display:flex;flex-direction:column;gap:10px;flex:1">
+          <div style="font-family:var(--font-heading);font-size:32px;line-height:1.08;text-wrap:pretty">{{ ob.title }}</div>
+          <div style="font-size:16px;line-height:1.5;color:var(--color-neutral-800);text-wrap:pretty">{{ ob.body }}</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:0 28px 56px">
+          <div style="display:flex;gap:6px">
+            <sc-for list="{{ ob.dots }}" as="d" hint-placeholder-count="3">
+              <div style="height:8px;border-radius:999px;width:{{ d.w }}px;background:{{ d.bg }};transition:width .25s"></div>
+            </sc-for>
+          </div>
+          <button class="btn btn-primary" onClick="{{ obNext }}" style="height:52px;padding:0 28px;font-size:16px">{{ ob.cta }}</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- PHONE -->
+    <sc-if value="{{ is.phone }}">
+      <div style="position:absolute;inset:0;padding:70px 28px 50px;display:flex;flex-direction:column;gap:22px">
+        <div style="font-family:var(--font-heading);font-size:22px;color:var(--color-accent-700)">expovice</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-family:var(--font-heading);font-size:32px;line-height:1.08">Sign in or create an account</div>
+          <div style="font-size:15px;color:var(--color-neutral-800)">We'll text a code to confirm it's you.</div>
+        </div>
+        <div class="field">
+          <label>Mobile number</label>
+          <div style="display:flex;gap:8px">
+            <div class="input" style="width:76px;flex:none;display:flex;align-items:center;justify-content:center;min-height:52px;font-weight:600">+91</div>
+            <input class="input" inputmode="numeric" placeholder="98765 43210" value="{{ phone }}" onChange="{{ setPhone }}" style="min-height:52px;font-size:17px;letter-spacing:.04em">
+          </div>
+        </div>
+        <button class="btn btn-primary" disabled="{{ phoneInvalid }}" onClick="{{ sendOtp }}" style="height:52px;font-size:16px;width:100%">Continue</button>
+        <div style="display:flex;align-items:center;gap:12px;font-size:13px;color:var(--color-neutral-700)">
+          <div style="flex:1;height:1px;background:var(--color-divider)"></div>or<div style="flex:1;height:1px;background:var(--color-divider)"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <button class="btn btn-secondary" onClick="{{ socialSignIn }}" style="height:52px;font-size:15px;width:100%;gap:10px"><span style="width:22px;height:22px;border-radius:50%;background:var(--color-neutral-100);display:grid;place-items:center;font-family:var(--font-body);font-weight:700;font-size:13px">G</span>Continue with Google</button>
+          <button class="btn btn-secondary" onClick="{{ socialSignIn }}" style="height:52px;font-size:15px;width:100%;gap:10px;background:var(--color-neutral-900);color:var(--color-bg);border-color:var(--color-neutral-900)"><span style="width:22px;height:22px;border-radius:50%;background:var(--color-neutral-700);display:grid;place-items:center;font-family:var(--font-body);font-weight:700;font-size:12px">A</span>Continue with Apple</button>
+        </div>
+        <div style="margin-top:auto;font-size:12px;line-height:1.5;color:var(--color-neutral-700);text-wrap:pretty">By continuing you agree to Expovice's Terms of Service and Privacy Policy.</div>
+      </div>
+    </sc-if>
+
+    <!-- OTP -->
+    <sc-if value="{{ is.otp }}">
+      <div style="position:absolute;inset:0;padding:58px 28px 50px;display:flex;flex-direction:column;gap:22px">
+        <button class="btn btn-secondary btn-icon" onClick="{{ back }}" style="width:44px;height:44px">{{ I.chevL }}</button>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-family:var(--font-heading);font-size:32px;line-height:1.08">Enter the code</div>
+          <div style="font-size:15px;color:var(--color-neutral-800)">Sent by SMS to +91 {{ phoneFmt }}</div>
+        </div>
+        <div style="position:relative;display:flex;gap:12px">
+          <sc-for list="{{ otpBoxes }}" as="b" hint-placeholder-count="4">
+            <div style="width:64px;height:68px;border-radius:24px;background:var(--color-surface);border:2px solid {{ b.bd }};display:grid;place-items:center;font-family:var(--font-heading);font-size:28px">{{ b.d }}</div>
+          </sc-for>
+          <input inputmode="numeric" autofocus="{{ true }}" maxlength="4" value="{{ otp }}" onChange="{{ setOtp }}" style="position:absolute;inset:0;opacity:0;font-size:28px;cursor:text">
+        </div>
+        <div style="font-size:14px;color:var(--color-neutral-700)">Didn't get it? <button class="btn btn-ghost" style="font-family:var(--font-body);font-weight:600;padding:2px 4px">Resend code</button></div>
+        <button class="btn btn-primary" disabled="{{ otpInvalid }}" onClick="{{ verifyOtp }}" style="margin-top:auto;height:52px;font-size:16px;width:100%">Verify</button>
+      </div>
+    </sc-if>
+
+    <!-- NAME -->
+    <sc-if value="{{ is.name }}">
+      <div style="position:absolute;inset:0;padding:70px 28px 50px;display:flex;flex-direction:column;gap:22px">
+        <div style="width:64px;height:64px;border-radius:50%;background:var(--color-accent-2-200);color:var(--color-accent-2-800);display:grid;place-items:center">{{ I.user }}</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-family:var(--font-heading);font-size:32px;line-height:1.08">What should we call you?</div>
+          <div style="font-size:15px;color:var(--color-neutral-800)">Pros see your first name when you send a request.</div>
+        </div>
+        <div class="field"><label>Full name</label><input class="input" placeholder="Your name" value="{{ name }}" onChange="{{ setName }}" style="min-height:52px;font-size:17px"></div>
+        <button class="btn btn-primary" disabled="{{ nameInvalid }}" onClick="{{ finishAccount }}" style="margin-top:auto;height:52px;font-size:16px;width:100%">Create account</button>
+      </div>
+    </sc-if>
+
+    <!-- HOME -->
+    <sc-if value="{{ is.home }}">
+      <div style="position:absolute;top:50px;left:0;right:0;bottom:0;overflow-y:auto;scrollbar-width:none;padding:6px 0 120px">
+        <div style="display:flex;align-items:center;gap:10px;padding:6px 20px 0">
+          <div style="width:40px;height:40px;border-radius:50%;background:var(--color-accent-100);color:var(--color-accent-700);display:grid;place-items:center;flex:none">{{ I.pin }}</div>
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:center;gap:4px;font-weight:700;font-size:15px">Home {{ I.chevD }}</div>
+            <div style="font-size:12px;color:var(--color-neutral-700);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">12th Main, Indiranagar, Bengaluru</div>
+          </div>
+          <button class="btn btn-secondary btn-icon" style="width:44px;height:44px;position:relative">{{ I.bell }}<span style="position:absolute;top:10px;right:11px;width:8px;height:8px;border-radius:50%;background:var(--color-accent)"></span></button>
+        </div>
+        <div style="padding:22px 20px 0;font-family:var(--font-heading);font-size:30px;line-height:1.08">Hi {{ firstName }}, what needs fixing today?</div>
+        <div style="padding:16px 20px 0;position:relative">
+          <div style="position:absolute;left:36px;top:31px;color:var(--color-neutral-700)">{{ I.search }}</div>
+          <input class="input" placeholder="Search electrician, plumber…" value="{{ q }}" onChange="{{ setQ }}" style="min-height:52px;padding-left:48px;font-size:15px;background:var(--color-neutral-100)">
+        </div>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;padding:24px 20px 12px">
+          <div style="font-family:var(--font-heading);font-size:20px">Services</div>
+          <div style="font-size:12px;color:var(--color-neutral-700)">Pros within {{ radius }} km</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px 8px;padding:0 16px">
+          <sc-for list="{{ cats }}" as="c" hint-placeholder-count="8">
+            <button onClick="{{ c.open }}" style="border:0;background:transparent;padding:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;font:inherit;color:inherit">
+              <div style="width:72px;height:72px;border-radius:50%;background:{{ c.bg }};color:{{ c.fg }};display:grid;place-items:center;transition:transform .15s" style-hover="transform:scale(1.06)">{{ c.icon }}</div>
+              <div style="font-size:12.5px;font-weight:600;line-height:1.2;text-align:center;text-wrap:balance">{{ c.name }}</div>
+            </button>
+          </sc-for>
+        </div>
+        <sc-if value="{{ noCats }}">
+          <div style="padding:8px 20px;font-size:14px;color:var(--color-neutral-700)">No service matches "{{ q }}".</div>
+        </sc-if>
+        <div style="margin:26px 16px 0;border-radius:32px;background:var(--color-accent-2-200);padding:22px;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:10px">
+          <div style="position:absolute;width:150px;height:150px;border-radius:50%;background:var(--color-accent-2-300);right:-40px;top:-50px"></div>
+          <div style="position:relative;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-2-800);font-weight:700">{{ bannerKicker }}</div>
+          <div style="position:relative;font-family:var(--font-heading);font-size:22px;line-height:1.12;max-width:240px;color:var(--color-accent-2-900)">{{ bannerTitle }}</div>
+          <button class="btn btn-primary" onClick="{{ bannerGo }}" style="position:relative;align-self:flex-start;height:44px;padding:0 20px;background:var(--color-accent-2-700)">{{ bannerCta }}</button>
+        </div>
+        <div style="padding:26px 20px 12px;font-family:var(--font-heading);font-size:20px">Top rated near you</div>
+        <div style="display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;padding:0 20px 4px">
+          <sc-for list="{{ topPros }}" as="p" hint-placeholder-count="4">
+            <button onClick="{{ p.open }}" style="flex:none;width:150px;border:0;background:var(--color-surface);border-radius:28px;padding:12px;text-align:left;font:inherit;color:inherit;cursor:pointer;display:flex;flex-direction:column;gap:8px">
+              <div style="width:126px;height:110px;border-radius:20px;overflow:hidden" class="washed"><image-slot id="{{ p.photoId }}" shape="rounded" radius="20" placeholder="Face photo" style="width:126px;height:110px"></image-slot></div>
+              <div style="font-weight:700;font-size:14px;line-height:1.2">{{ p.name }}</div>
+              <div style="font-size:12px;color:var(--color-neutral-700)">{{ p.catName }} · {{ p.distTxt }}</div>
+              <div style="display:flex;align-items:center;gap:4px;font-size:13px;font-weight:700;color:var(--color-accent-700)">{{ I.starSm }} {{ p.rating }}</div>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- LISTING -->
+    <sc-if value="{{ is.listing }}">
+      <div style="position:absolute;top:50px;left:0;right:0;bottom:0;display:flex;flex-direction:column">
+        <div style="padding:6px 16px 12px;display:flex;flex-direction:column;gap:12px;background:var(--color-bg);box-shadow:var(--shadow-sm);position:relative;z-index:2">
+          <div style="display:flex;align-items:center;gap:12px">
+            <button class="btn btn-secondary btn-icon" onClick="{{ back }}" style="width:44px;height:44px;flex:none">{{ I.chevL }}</button>
+            <div style="flex:1;min-width:0">
+              <div style="font-family:var(--font-heading);font-size:24px;line-height:1.1">{{ catName }}</div>
+              <div style="font-size:12px;color:var(--color-neutral-700)">{{ listCount }} pros within {{ radius }} km of Indiranagar</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;overflow-x:auto;scrollbar-width:none">
+            <sc-for list="{{ filterChips }}" as="f" hint-placeholder-count="4">
+              <button onClick="{{ f.toggle }}" style="flex:none;height:38px;padding:0 15px;border-radius:999px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;background:{{ f.bg }};color:{{ f.fg }};border:1px solid {{ f.bd }}">{{ f.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="flex:1;overflow-y:auto;scrollbar-width:none;padding:14px 16px 40px;display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ listing }}" as="p" hint-placeholder-count="4">
+            <button onClick="{{ p.open }}" style="border:0;background:var(--color-surface);border-radius:30px;padding:14px;text-align:left;font:inherit;color:inherit;cursor:pointer;display:flex;gap:14px;transition:box-shadow .15s" style-hover="box-shadow:var(--shadow-md)">
+              <div style="width:84px;height:84px;flex:none;border-radius:50%;overflow:hidden" class="washed"><image-slot id="{{ p.photoId }}" shape="circle" placeholder="Face" style="width:84px;height:84px"></image-slot></div>
+              <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px">
+                <div style="display:flex;align-items:center;gap:6px">
+                  <div style="font-weight:700;font-size:16px;line-height:1.2">{{ p.name }}</div>
+                  <sc-if value="{{ p.verified }}"><span style="color:var(--color-accent-2-700);display:flex">{{ I.shieldSm }}</span></sc-if>
+                </div>
+                <div style="display:flex;flex-wrap:wrap;gap:4px">
+                  <sc-for list="{{ p.skills }}" as="s" hint-placeholder-count="3"><span class="tag tag-neutral" style="font-size:11px;padding:2px 8px">{{ s }}</span></sc-for>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--color-neutral-800)">
+                  <span style="display:flex;align-items:center;gap:3px;font-weight:700;color:var(--color-accent-700)">{{ I.starSm }} {{ p.rating }}</span>
+                  <span>{{ p.requests }} requests</span>
+                  <span>{{ p.distTxt }}</span>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between">
+                  <div style="font-size:14px"><b>{{ p.rateTxt }}</b><span style="color:var(--color-neutral-700)"> /{{ p.unit }}</span></div>
+                  <span class="tag" style="background:{{ p.availBg }};color:{{ p.availFg }};font-weight:600">{{ p.availTxt }}</span>
+                </div>
+              </div>
+            </button>
+          </sc-for>
+          <sc-if value="{{ noResults }}">
+            <div style="padding:40px 12px;display:flex;flex-direction:column;align-items:flex-start;gap:10px">
+              <div style="font-family:var(--font-heading);font-size:20px">No pros match these filters</div>
+              <button class="btn btn-secondary" onClick="{{ clearFilters }}">Clear filters</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ hasHidden }}">
+            <div style="font-size:12px;color:var(--color-neutral-700);padding:4px 6px">{{ hiddenCount }} more beyond {{ radius }} km aren't shown.</div>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- DETAIL -->
+    <sc-if value="{{ is.detail }}">
+      <div style="position:absolute;top:0;left:0;right:0;bottom:0;overflow-y:auto;scrollbar-width:none;padding-bottom:130px">
+        <div style="position:relative;height:330px;margin:0 0 0;border-radius:0 0 44px 44px;overflow:hidden" class="washed">
+          <image-slot id="{{ pro.photoId }}" shape="rect" placeholder="Drop a face photo"></image-slot>
+        </div>
+        <button class="btn btn-icon" onClick="{{ back }}" style="position:absolute;top:58px;left:16px;width:44px;height:44px;background:var(--color-bg);box-shadow:var(--shadow-md);z-index:3">{{ I.chevL }}</button>
+        <div style="padding:20px 20px 0;display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <span class="tag tag-accent" style="font-weight:600">{{ pro.catName }}</span>
+            <sc-if value="{{ pro.verified }}"><span class="tag tag-accent-2" style="font-weight:600;gap:4px">{{ I.shieldSm }} ID verified</span></sc-if>
+          </div>
+          <div style="font-family:var(--font-heading);font-size:32px;line-height:1.08">{{ pro.name }}</div>
+          <div style="font-size:14px;color:var(--color-neutral-700)">{{ pro.distTxt }} away · speaks {{ pro.langTxt }}</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:18px 16px 0">
+          <div style="background:var(--color-accent-100);border-radius:24px;padding:14px 12px;display:flex;flex-direction:column;gap:2px">
+            <div style="display:flex;align-items:center;gap:4px;font-family:var(--font-heading);font-size:24px;color:var(--color-accent-700)">{{ pro.rating }}<span style="font-family:var(--font-body);font-size:13px;color:var(--color-accent-800)">/5</span></div>
+            <div style="font-size:12px;color:var(--color-accent-800)">Rating</div>
+          </div>
+          <div style="background:var(--color-surface);border-radius:24px;padding:14px 12px;display:flex;flex-direction:column;gap:2px">
+            <div style="font-family:var(--font-heading);font-size:24px">{{ pro.requests }}</div>
+            <div style="font-size:12px;color:var(--color-neutral-700)">Requests</div>
+          </div>
+          <div style="background:var(--color-surface);border-radius:24px;padding:14px 12px;display:flex;flex-direction:column;gap:2px">
+            <div style="font-family:var(--font-heading);font-size:24px">{{ pro.years }} yrs</div>
+            <div style="font-size:12px;color:var(--color-neutral-700)">Experience</div>
+          </div>
+        </div>
+        <div style="padding:22px 20px 0;display:flex;flex-direction:column;gap:8px">
+          <div style="font-family:var(--font-heading);font-size:18px">About</div>
+          <div style="font-size:15px;line-height:1.55;color:var(--color-neutral-800);text-wrap:pretty">{{ pro.bio }}</div>
+        </div>
+        <div style="padding:20px 20px 0;display:flex;flex-direction:column;gap:10px">
+          <div style="font-family:var(--font-heading);font-size:18px">Skills</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px">
+            <sc-for list="{{ pro.allSkills }}" as="s" hint-placeholder-count="4"><span class="tag tag-neutral" style="font-size:13px;padding:6px 12px">{{ s }}</span></sc-for>
+          </div>
+        </div>
+        <div style="margin:20px 16px 0;padding:14px 16px;border-radius:24px;background:var(--color-accent-2-100);display:flex;align-items:center;gap:12px;color:var(--color-accent-2-800)">
+          {{ I.clock }}
+          <div style="display:flex;flex-direction:column"><span style="font-weight:700;font-size:14px">{{ pro.availTxt }}</span><span style="font-size:13px">Mon–Sat · 9 AM – 7 PM</span></div>
+        </div>
+        <div style="padding:22px 20px 0;display:flex;flex-direction:column;gap:10px">
+          <div style="font-family:var(--font-heading);font-size:18px">Recent work</div>
+          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+            <div style="aspect-ratio:1;border-radius:20px;overflow:hidden" class="washed"><image-slot id="{{ pro.work1 }}" shape="rounded" radius="20" placeholder="Work photo"></image-slot></div>
+            <div style="aspect-ratio:1;border-radius:20px;overflow:hidden" class="washed"><image-slot id="{{ pro.work2 }}" shape="rounded" radius="20" placeholder="Work photo"></image-slot></div>
+            <div style="aspect-ratio:1;border-radius:20px;overflow:hidden" class="washed"><image-slot id="{{ pro.work3 }}" shape="rounded" radius="20" placeholder="Work photo"></image-slot></div>
+          </div>
+        </div>
+      </div>
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:14px 20px 36px;background:var(--color-bg);box-shadow:0 -6px 20px color-mix(in srgb, var(--color-neutral-900) 10%, transparent);display:flex;align-items:center;gap:14px;z-index:5">
+        <div style="display:flex;flex-direction:column"><span style="font-family:var(--font-heading);font-size:22px">{{ pro.rateTxt }}</span><span style="font-size:12px;color:var(--color-neutral-700)">per {{ pro.unit }} · pay after service</span></div>
+        <button class="btn btn-primary" onClick="{{ toRequest }}" style="flex:1;height:54px;font-size:16px">Request service</button>
+      </div>
+    </sc-if>
+
+    <!-- REQUEST -->
+    <sc-if value="{{ is.request }}">
+      <div style="position:absolute;top:50px;left:0;right:0;bottom:0;overflow-y:auto;scrollbar-width:none;padding:6px 20px 130px;display:flex;flex-direction:column;gap:20px">
+        <div style="display:flex;align-items:center;gap:12px">
+          <button class="btn btn-secondary btn-icon" onClick="{{ back }}" style="width:44px;height:44px;flex:none">{{ I.chevL }}</button>
+          <div style="font-family:var(--font-heading);font-size:24px">Request service</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;background:var(--color-surface);border-radius:28px;padding:12px">
+          <div style="width:52px;height:52px;border-radius:50%;overflow:hidden;flex:none" class="washed"><image-slot id="{{ pro.photoId }}" shape="circle" placeholder="Face" style="width:52px;height:52px"></image-slot></div>
+          <div style="flex:1"><div style="font-weight:700">{{ pro.name }}</div><div style="font-size:12.5px;color:var(--color-neutral-700)">{{ pro.catName }} · {{ pro.rateTxt }}/{{ pro.unit }}</div></div>
+          <span style="display:flex;align-items:center;gap:3px;font-weight:700;color:var(--color-accent-700)">{{ I.starSm }} {{ pro.rating }}</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="font-weight:700;font-size:15px">What do you need?</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <sc-for list="{{ reqSkills }}" as="c" hint-placeholder-count="4">
+              <button onClick="{{ c.pick }}" style="height:40px;padding:0 15px;border-radius:999px;font:inherit;font-size:13.5px;cursor:pointer;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bd }}">{{ c.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div class="field"><label>Describe the problem (optional)</label><textarea class="input" placeholder="e.g. Kitchen tap leaking since morning" value="{{ reqNote }}" onChange="{{ setReqNote }}" style="border-radius:24px;min-height:84px;padding:12px 16px"></textarea></div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="font-weight:700;font-size:15px">When?</div>
+          <div style="display:flex;gap:8px">
+            <sc-for list="{{ reqDays }}" as="d" hint-placeholder-count="4">
+              <button onClick="{{ d.pick }}" style="flex:1;height:62px;border-radius:22px;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;background:{{ d.bg }};color:{{ d.fg }};border:1px solid {{ d.bd }}"><span style="font-size:11.5px">{{ d.top }}</span><span style="font-weight:700;font-size:15px">{{ d.bottom }}</span></button>
+            </sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+            <sc-for list="{{ reqSlots }}" as="s" hint-placeholder-count="6">
+              <button onClick="{{ s.pick }}" style="height:42px;border-radius:999px;font:inherit;font-size:13px;cursor:pointer;background:{{ s.bg }};color:{{ s.fg }};border:1px solid {{ s.bd }}">{{ s.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;border:1px solid var(--color-divider);border-radius:24px;padding:14px">
+          <div style="color:var(--color-accent-700)">{{ I.pin }}</div>
+          <div style="flex:1"><div style="font-weight:700;font-size:14px">Home</div><div style="font-size:12.5px;color:var(--color-neutral-700)">Flat 302, 12th Main, Indiranagar</div></div>
+          <button class="btn btn-ghost" style="font-family:var(--font-body);font-weight:700;font-size:13px">Change</button>
+        </div>
+      </div>
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:14px 20px 36px;background:var(--color-bg);box-shadow:0 -6px 20px color-mix(in srgb, var(--color-neutral-900) 10%, transparent);z-index:5;display:flex;flex-direction:column;gap:8px">
+        <button class="btn btn-primary" disabled="{{ reqInvalid }}" onClick="{{ sendRequest }}" style="height:54px;font-size:16px;width:100%">Send request to {{ pro.first }}</button>
+        <div style="font-size:12px;text-align:center;color:var(--color-neutral-700)">{{ reqHint }}</div>
+      </div>
+    </sc-if>
+
+    <!-- REQUEST SENT -->
+    <sc-if value="{{ is.sent }}">
+      <div style="position:absolute;inset:0;padding:120px 28px 56px;display:flex;flex-direction:column;gap:18px">
+        <div style="width:96px;height:96px;border-radius:50%;background:var(--color-accent-2-500);color:var(--color-bg);display:grid;place-items:center;animation:ex-pop .4s ease-out">{{ I.checkLg }}</div>
+        <div style="font-family:var(--font-heading);font-size:34px;line-height:1.08">Request sent to {{ pro.first }}</div>
+        <div style="font-size:16px;line-height:1.5;color:var(--color-neutral-800);text-wrap:pretty">{{ sentBody }}</div>
+        <div style="background:var(--color-surface);border-radius:28px;padding:16px;display:flex;flex-direction:column;gap:6px;font-size:14px">
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--color-neutral-700)">Service</span><b>{{ lastReq.skill }}</b></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--color-neutral-700)">When</span><b>{{ lastReq.when }}</b></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--color-neutral-700)">Rate</span><b>{{ pro.rateTxt }}/{{ pro.unit }}</b></div>
+        </div>
+        <div style="margin-top:auto;display:flex;flex-direction:column;gap:10px">
+          <button class="btn btn-primary" onClick="{{ toRequests }}" style="height:54px;font-size:16px;width:100%">View my requests</button>
+          <button class="btn btn-secondary" onClick="{{ toHome }}" style="height:54px;font-size:16px;width:100%">Back to home</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- MY REQUESTS -->
+    <sc-if value="{{ is.requests }}">
+      <div style="position:absolute;top:50px;left:0;right:0;bottom:0;overflow-y:auto;scrollbar-width:none;padding:14px 16px 120px;display:flex;flex-direction:column;gap:12px">
+        <div style="font-family:var(--font-heading);font-size:30px;padding:0 4px">My requests</div>
+        <sc-for list="{{ bookings }}" as="b" hint-placeholder-count="3">
+          <div style="background:var(--color-surface);border-radius:30px;padding:14px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:center;gap:12px">
+              <div style="width:52px;height:52px;border-radius:50%;overflow:hidden;flex:none" class="washed"><image-slot id="{{ b.photoId }}" shape="circle" placeholder="Face" style="width:52px;height:52px"></image-slot></div>
+              <div style="flex:1;min-width:0"><div style="font-weight:700">{{ b.proName }}</div><div style="font-size:12.5px;color:var(--color-neutral-700)">{{ b.catName }} · {{ b.skill }}</div></div>
+              <span class="tag" style="background:{{ b.stBg }};color:{{ b.stFg }};font-weight:700">{{ b.status }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--color-neutral-800)">{{ I.clockSm }} {{ b.when }}</div>
+            <sc-if value="{{ b.canCancel }}">
+              <button class="btn btn-secondary" onClick="{{ b.cancel }}" style="height:40px;align-self:flex-start">Cancel request</button>
+            </sc-if>
+            <sc-if value="{{ b.canRate }}">
+              <div style="display:flex;align-items:center;gap:10px">
+                <span style="font-size:13px;color:var(--color-neutral-700)">Rate {{ b.proFirst }}</span>
+                <div style="display:flex;gap:2px">
+                  <sc-for list="{{ b.stars }}" as="s" hint-placeholder-count="5">
+                    <button onClick="{{ s.pick }}" style="border:0;background:transparent;padding:2px;cursor:pointer;color:{{ s.color }}">{{ I.star }}</button>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <!-- WORK DASHBOARD -->
+    <sc-if value="{{ is.work }}">
+      <div style="position:absolute;top:50px;left:0;right:0;bottom:0;overflow-y:auto;scrollbar-width:none;padding:14px 16px 120px;display:flex;flex-direction:column;gap:14px">
+        <sc-if value="{{ notListed }}">
+          <div style="font-family:var(--font-heading);font-size:30px;padding:0 4px">Earn with your skills</div>
+          <div style="font-size:15px;line-height:1.5;color:var(--color-neutral-800);padding:0 4px;text-wrap:pretty">List yourself and neighbours within your service radius can find and request you.</div>
+          <div style="background:var(--color-surface);border-radius:32px;padding:20px;display:flex;flex-direction:column;gap:16px">
+            <sc-for list="{{ listSteps }}" as="s" hint-placeholder-count="4">
+              <div style="display:flex;gap:14px;align-items:center">
+                <div style="width:40px;height:40px;border-radius:50%;flex:none;background:var(--color-accent-100);color:var(--color-accent-700);display:grid;place-items:center;font-family:var(--font-heading);font-size:17px">{{ s.n }}</div>
+                <div><div style="font-weight:700;font-size:15px">{{ s.t }}</div><div style="font-size:13px;color:var(--color-neutral-700)">{{ s.d }}</div></div>
+              </div>
+            </sc-for>
+          </div>
+          <button class="btn btn-primary" onClick="{{ startSetup }}" style="height:54px;font-size:16px;width:100%">Start listing</button>
+        </sc-if>
+        <sc-if value="{{ listed }}">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:0 4px">
+            <div style="font-family:var(--font-heading);font-size:30px">My work</div>
+            <button onClick="{{ toggleAccepting }}" style="border:0;cursor:pointer;font:inherit;font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;padding:6px 6px 6px 12px;border-radius:999px;background:{{ acc.bg }};color:{{ acc.fg }}">{{ acc.label }}<span style="width:40px;height:24px;border-radius:999px;background:{{ acc.track }};position:relative;display:block"><span style="position:absolute;top:3px;left:{{ acc.knob }}px;width:18px;height:18px;border-radius:50%;background:var(--color-bg);transition:left .2s"></span></span></button>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+            <div style="background:var(--color-accent-100);border-radius:24px;padding:14px 12px"><div style="font-family:var(--font-heading);font-size:24px;color:var(--color-accent-700)">{{ newCount }}</div><div style="font-size:12px;color:var(--color-accent-800)">New requests</div></div>
+            <div style="background:var(--color-surface);border-radius:24px;padding:14px 12px"><div style="font-family:var(--font-heading);font-size:24px">{{ jobsCount }}</div><div style="font-size:12px;color:var(--color-neutral-700)">Jobs accepted</div></div>
+            <div style="background:var(--color-surface);border-radius:24px;padding:14px 12px"><div style="font-family:var(--font-heading);font-size:24px">{{ earnTxt }}</div><div style="font-size:12px;color:var(--color-neutral-700)">Booked value</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;background:var(--color-accent-2-100);border-radius:24px;padding:12px 14px;color:var(--color-accent-2-800)">
+            {{ I.shieldSm }}<div style="font-size:13px;flex:1">{{ myListingLine }}</div>
+            <button class="btn btn-ghost" onClick="{{ startSetup }}" style="font-family:var(--font-body);font-weight:700;font-size:13px;color:var(--color-accent-2-800)">Edit</button>
+          </div>
+          <div style="font-family:var(--font-heading);font-size:20px;padding:6px 4px 0">Incoming requests</div>
+          <sc-for list="{{ incoming }}" as="r" hint-placeholder-count="3">
+            <div style="background:var(--color-surface);border-radius:30px;padding:16px;display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;align-items:center;gap:12px">
+                <div style="width:44px;height:44px;border-radius:50%;flex:none;background:{{ r.avBg }};color:var(--color-bg);display:grid;place-items:center;font-family:var(--font-heading);font-size:18px">{{ r.initial }}</div>
+                <div style="flex:1;min-width:0"><div style="font-weight:700">{{ r.customer }}</div><div style="font-size:12.5px;color:var(--color-neutral-700)">{{ r.dist }} away · {{ r.area }}</div></div>
+                <span class="tag" style="background:{{ r.stBg }};color:{{ r.stFg }};font-weight:700">{{ r.status }}</span>
+              </div>
+              <div style="font-size:14px"><b>{{ r.skill }}</b> · {{ r.when }}</div>
+              <sc-if value="{{ r.hasNote }}"><div style="font-size:13.5px;line-height:1.45;color:var(--color-neutral-800);background:var(--color-neutral-100);border-radius:18px;padding:10px 12px">"{{ r.note }}"</div></sc-if>
+              <sc-if value="{{ r.pending }}">
+                <div style="display:flex;gap:8px">
+                  <button class="btn btn-secondary" onClick="{{ r.decline }}" style="flex:1;height:44px">Decline</button>
+                  <button class="btn btn-primary" onClick="{{ r.accept }}" style="flex:1;height:44px">Accept</button>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- PROFILE -->
+    <sc-if value="{{ is.profile }}">
+      <div style="position:absolute;top:50px;left:0;right:0;bottom:0;overflow-y:auto;scrollbar-width:none;padding:14px 16px 120px;display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;align-items:center;gap:16px;padding:6px 4px">
+          <div style="width:84px;height:84px;border-radius:50%;overflow:hidden;flex:none" class="washed"><image-slot id="me-photo" shape="circle" placeholder="You" style="width:84px;height:84px"></image-slot></div>
+          <div><div style="font-family:var(--font-heading);font-size:24px;line-height:1.1">{{ displayName }}</div><div style="font-size:13px;color:var(--color-neutral-700)">+91 {{ phoneFmt }}</div>
+          <span class="tag" style="margin-top:6px;background:{{ meTag.bg }};color:{{ meTag.fg }};font-weight:700">{{ meTag.label }}</span></div>
+        </div>
+        <div style="background:var(--color-surface);border-radius:30px;padding:6px;display:flex;flex-direction:column">
+          <sc-for list="{{ profileRows }}" as="r" hint-placeholder-count="4">
+            <button onClick="{{ r.go }}" style="border:0;background:transparent;font:inherit;color:inherit;cursor:pointer;display:flex;align-items:center;gap:14px;padding:14px;border-radius:24px;text-align:left" style-hover="background:var(--color-neutral-300)">
+              <span style="color:var(--color-accent-700)">{{ r.icon }}</span><span style="flex:1;font-size:15px;font-weight:600">{{ r.label }}</span><span style="color:var(--color-neutral-600)">{{ I.chevR }}</span>
+            </button>
+          </sc-for>
+        </div>
+        <button class="btn btn-secondary" onClick="{{ signOut }}" style="height:50px;gap:8px">{{ I.logout }} Sign out</button>
+      </div>
+    </sc-if>
+
+    <!-- PROVIDER SETUP -->
+    <sc-if value="{{ is.setup }}">
+      <div style="position:absolute;top:50px;left:0;right:0;bottom:0;display:flex;flex-direction:column">
+        <div style="padding:6px 20px 14px;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <button class="btn btn-secondary btn-icon" onClick="{{ setupBack }}" style="width:44px;height:44px;flex:none">{{ I.chevL }}</button>
+            <div style="flex:1;font-size:13px;font-weight:600;color:var(--color-neutral-700)">Step {{ su.step }} of 4</div>
+            <button class="btn btn-ghost" onClick="{{ exitSetup }}" style="font-family:var(--font-body);font-weight:700">Save & exit</button>
+          </div>
+          <div style="display:flex;gap:6px">
+            <sc-for list="{{ su.bars }}" as="b" hint-placeholder-count="4"><div style="flex:1;height:6px;border-radius:999px;background:{{ b.bg }};transition:background .3s"></div></sc-for>
+          </div>
+          <div style="font-family:var(--font-heading);font-size:28px;line-height:1.08">{{ su.title }}</div>
+        </div>
+        <div style="flex:1;overflow-y:auto;scrollbar-width:none;padding:4px 20px 130px;display:flex;flex-direction:column;gap:20px">
+
+          <sc-if value="{{ su.s1 }}">
+            <div style="display:flex;align-items:center;gap:16px">
+              <div style="width:104px;height:104px;border-radius:50%;overflow:hidden;flex:none;border:3px dashed var(--color-accent-400)" class="washed"><image-slot id="me-photo" shape="circle" placeholder="Add photo" style="width:98px;height:98px"></image-slot></div>
+              <div style="font-size:13.5px;line-height:1.45;color:var(--color-neutral-800);text-wrap:pretty">A clear photo of your face. Profiles with photos get far more requests.</div>
+            </div>
+            <div class="field"><label>Full name</label><input class="input" value="{{ su.name }}" onChange="{{ su.setName }}" placeholder="As on your ID" style="min-height:50px;font-size:16px"></div>
+            <div class="field"><label>Short bio</label><textarea class="input" value="{{ su.bio }}" onChange="{{ su.setBio }}" placeholder="What you're good at, how long you've done it" style="border-radius:24px;min-height:96px;padding:12px 16px"></textarea></div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="font-size:12px;color:var(--color-neutral-700)">Languages you speak</div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <sc-for list="{{ su.langs }}" as="c" hint-placeholder-count="6"><button onClick="{{ c.pick }}" style="height:40px;padding:0 15px;border-radius:999px;font:inherit;font-size:13.5px;cursor:pointer;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bd }}">{{ c.label }}</button></sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ su.s2 }}">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="font-size:12px;color:var(--color-neutral-700)">Services you offer</div>
+              <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">
+                <sc-for list="{{ su.cats }}" as="c" hint-placeholder-count="8">
+                  <button onClick="{{ c.pick }}" style="height:56px;padding:0 12px;border-radius:22px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:10px;text-align:left;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bd }}">{{ c.icon }}{{ c.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <sc-if value="{{ su.hasSkills }}">
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <div style="font-size:12px;color:var(--color-neutral-700)">Skills</div>
+                <div style="display:flex;flex-wrap:wrap;gap:8px">
+                  <sc-for list="{{ su.skills }}" as="c" hint-placeholder-count="5"><button onClick="{{ c.pick }}" style="height:38px;padding:0 14px;border-radius:999px;font:inherit;font-size:13px;cursor:pointer;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bd }}">{{ c.label }}</button></sc-for>
+                </div>
+              </div>
+            </sc-if>
+            <div style="display:flex;align-items:center;justify-content:space-between;background:var(--color-surface);border-radius:24px;padding:12px 14px">
+              <div><div style="font-weight:700;font-size:15px">Years of experience</div><div style="font-size:12px;color:var(--color-neutral-700)">Shown on your listing</div></div>
+              <div style="display:flex;align-items:center;gap:10px">
+                <button class="btn btn-secondary btn-icon" onClick="{{ su.yearsDown }}" style="width:40px;height:40px">{{ I.minus }}</button>
+                <div style="font-family:var(--font-heading);font-size:22px;min-width:28px;text-align:center">{{ su.years }}</div>
+                <button class="btn btn-secondary btn-icon" onClick="{{ su.yearsUp }}" style="width:40px;height:40px">{{ I.plus }}</button>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ su.s3 }}">
+            <div class="field"><label>Your rate</label>
+              <div style="display:flex;gap:8px;align-items:center">
+                <div style="position:relative;flex:1"><span style="position:absolute;left:16px;top:13px;font-weight:700">₹</span><input class="input" inputmode="numeric" value="{{ su.rate }}" onChange="{{ su.setRate }}" placeholder="350" style="min-height:50px;font-size:17px;padding-left:32px"></div>
+                <div class="seg" style="flex:none">
+                  <sc-for list="{{ su.units }}" as="u" hint-placeholder-count="2"><button onClick="{{ u.pick }}" style="border:0;font:inherit;font-size:13px;padding:0 14px;height:48px;cursor:pointer;background:{{ u.bg }};color:{{ u.fg }}">{{ u.label }}</button></sc-for>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;background:var(--color-surface);border-radius:24px;padding:14px 16px">
+              <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-weight:700;font-size:15px">Service radius</span><span style="font-family:var(--font-heading);font-size:20px;color:var(--color-accent-700)">{{ su.radius }} km</span></div>
+              <input type="range" min="1" max="15" value="{{ su.radius }}" onChange="{{ su.setRadius }}" style="width:100%">
+              <div style="font-size:12px;color:var(--color-neutral-700)">Customers within this distance of Indiranagar will see you.</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="font-size:12px;color:var(--color-neutral-700)">Days you work</div>
+              <div style="display:flex;gap:5px">
+                <sc-for list="{{ su.days }}" as="d" hint-placeholder-count="7"><button onClick="{{ d.pick }}" style="flex:1;height:44px;border-radius:999px;font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;padding:0;background:{{ d.bg }};color:{{ d.fg }};border:1px solid {{ d.bd }}">{{ d.label }}</button></sc-for>
+              </div>
+            </div>
+            <div style="display:flex;gap:10px">
+              <div class="field" style="flex:1"><label>From</label><select class="input" value="{{ su.from }}" onChange="{{ su.setFrom }}" style="min-height:48px"><sc-for list="{{ hours }}" as="h" hint-placeholder-count="4"><option value="{{ h }}">{{ h }}</option></sc-for></select></div>
+              <div class="field" style="flex:1"><label>To</label><select class="input" value="{{ su.to }}" onChange="{{ su.setTo }}" style="min-height:48px"><sc-for list="{{ hours }}" as="h" hint-placeholder-count="4"><option value="{{ h }}">{{ h }}</option></sc-for></select></div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ su.s4 }}">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px"><span style="color:var(--color-accent-2-700)">{{ I.shield }}</span>ID verification</div>
+              <div style="display:flex;gap:6px">
+                <sc-for list="{{ su.ids }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.pick }}" style="flex:1;height:40px;border-radius:999px;font:inherit;font-size:13px;cursor:pointer;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bd }}">{{ c.label }}</button></sc-for>
+              </div>
+              <div style="height:170px;border-radius:28px;overflow:hidden"><image-slot id="me-id-front" shape="rounded" radius="28" placeholder="Photo of your ID (front)"></image-slot></div>
+              <div style="font-size:12.5px;line-height:1.45;color:var(--color-neutral-700);text-wrap:pretty">Only used to verify you. Customers see a "ID verified" badge, never the document.</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="font-weight:700;font-size:15px">Photos of your work</div>
+              <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+                <div style="aspect-ratio:1;border-radius:20px;overflow:hidden" class="washed"><image-slot id="me-work-1" shape="rounded" radius="20" placeholder="Add"></image-slot></div>
+                <div style="aspect-ratio:1;border-radius:20px;overflow:hidden" class="washed"><image-slot id="me-work-2" shape="rounded" radius="20" placeholder="Add"></image-slot></div>
+                <div style="aspect-ratio:1;border-radius:20px;overflow:hidden" class="washed"><image-slot id="me-work-3" shape="rounded" radius="20" placeholder="Add"></image-slot></div>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+        <div style="position:absolute;left:0;right:0;bottom:0;padding:14px 20px 36px;background:var(--color-bg);box-shadow:0 -6px 20px color-mix(in srgb, var(--color-neutral-900) 10%, transparent);display:flex;flex-direction:column;gap:6px">
+          <button class="btn btn-primary" disabled="{{ su.invalid }}" onClick="{{ su.next }}" style="height:54px;font-size:16px;width:100%">{{ su.cta }}</button>
+          <div style="font-size:12px;text-align:center;color:var(--color-neutral-700)">{{ su.hint }}</div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- LISTED -->
+    <sc-if value="{{ is.live }}">
+      <div style="position:absolute;inset:0;padding:110px 24px 56px;display:flex;flex-direction:column;gap:18px;overflow:hidden">
+        <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:var(--color-accent-2-200);top:-80px;right:-110px"></div>
+        <div style="position:relative;width:96px;height:96px;border-radius:50%;background:var(--color-accent);color:var(--color-bg);display:grid;place-items:center;animation:ex-pop .4s ease-out">{{ I.checkLg }}</div>
+        <div style="position:relative;font-family:var(--font-heading);font-size:34px;line-height:1.08">You're live on Expovice</div>
+        <div style="position:relative;font-size:16px;line-height:1.5;color:var(--color-neutral-800);text-wrap:pretty">{{ liveBody }}</div>
+        <div style="position:relative;background:var(--color-surface);border-radius:30px;padding:14px;display:flex;gap:14px;box-shadow:var(--shadow-md)">
+          <div style="width:72px;height:72px;border-radius:50%;overflow:hidden;flex:none" class="washed"><image-slot id="me-photo" shape="circle" placeholder="You" style="width:72px;height:72px"></image-slot></div>
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px">
+            <div style="font-weight:700;font-size:16px">{{ displayName }}</div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px"><sc-for list="{{ mySkills }}" as="s" hint-placeholder-count="3"><span class="tag tag-neutral" style="font-size:11px;padding:2px 8px">{{ s }}</span></sc-for></div>
+            <div style="display:flex;gap:10px;font-size:12.5px;color:var(--color-neutral-800)"><span style="font-weight:700;color:var(--color-accent-700)">New</span><span>0 requests</span><span><b>{{ myRateTxt }}</b></span></div>
+          </div>
+        </div>
+        <button class="btn btn-primary" onClick="{{ toWork }}" style="position:relative;margin-top:auto;height:54px;font-size:16px;width:100%">Go to my dashboard</button>
+      </div>
+    </sc-if>
+
+    <!-- TAB BAR -->
+    <sc-if value="{{ showTabs }}">
+      <div style="position:absolute;left:0;right:0;bottom:0;z-index:20;background:var(--color-bg);box-shadow:0 -6px 20px color-mix(in srgb, var(--color-neutral-900) 8%, transparent);display:flex;padding:8px 10px {{ tabPad }}px">
+        <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+          <button onClick="{{ t.go }}" style="flex:1;border:0;background:transparent;cursor:pointer;font:inherit;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 0;color:{{ t.fg }}">
+            <span style="width:56px;height:32px;border-radius:999px;display:grid;place-items:center;background:{{ t.bg }};transition:background .2s;position:relative">{{ t.icon }}<sc-if value="{{ t.badge }}"><span style="position:absolute;top:0;right:8px;min-width:16px;height:16px;border-radius:999px;background:var(--color-accent);color:var(--color-bg);font-size:10px;font-weight:700;display:grid;place-items:center">{{ t.badge }}</span></sc-if></span>
+            <span style="font-size:11.5px;font-weight:700">{{ t.label }}</span>
+          </button>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isIOS }}" hint-placeholder-val="{{ true }}">
+      <div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:999px;background:var(--color-neutral-900);z-index:40;pointer-events:none"></div>
+    </sc-if>
+    <sc-if value="{{ isAndroid }}">
+      <div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:100px;height:4px;border-radius:999px;background:var(--color-neutral-800);z-index:40;pointer-events:none"></div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;platform&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ios&quot;,&quot;android&quot;],&quot;default&quot;:&quot;ios&quot;,&quot;tsType&quot;:&quot;'ios' | 'android'&quot;},&quot;radiusKm&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[3,5,8],&quot;default&quot;:5,&quot;tsType&quot;:&quot;number&quot;,&quot;unit&quot;:&quot;km&quot;}}">
+const SV = {
+  zap:['M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z'],
+  wrench:['M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z'],
+  hammer:['m15 12-8.373 8.373a1 1 0 1 1-3-3L12 9','m18 15 4-4','m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172V7l-2.26-2.26a6 6 0 0 0-4.202-1.756L9 2.96l.92.82A6.18 6.18 0 0 1 12 8.4V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5'],
+  snow:['m10 20-1.25-2.5L6 18','M10 4 8.75 6.5 6 6','m14 20 1.25-2.5L18 18','m14 4 1.25 2.5L18 6','m17 21-3-6h-4','m17 3-3 6 1.5 3','M2 12h6.5L10 9','m20 10-1.5 2 1.5 2','M22 12h-6.5L14 15','m4 10 1.5 2L4 14','m7 21 3-6-1.5-3','m7 3 3 6h4'],
+  fridge:['M5 6a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6Z','M5 10h14','M15 7v6'],
+  washer:['M3 6h3','M17 6h.01','r:3,2,18,20,2','c:12,13,5','M12 18a2.5 2.5 0 0 0 0-5 2.5 2.5 0 0 1 0-5'],
+  paw:['c:11,4,2','c:18,8,2','c:20,16,2','M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z'],
+  roller:['r:2,2,16,6,2','M10 16v-2a2 2 0 0 1 2-2h8a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2','r:8,16,4,6,1'],
+  star:['M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z'],
+  pin:['M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0','c:12,10,3'],
+  search:['c:11,11,8','m21 21-4.3-4.3'],
+  chevL:['m15 18-6-6 6-6'], chevR:['m9 18 6-6-6-6'], chevD:['m6 9 6 6 6-6'],
+  home:['M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8','M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'],
+  list:['r:8,2,8,4,1','M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2','M12 11h4','M12 16h4','M8 11h.01','M8 16h.01'],
+  brief:['M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16','r:2,6,20,14,2'],
+  user:['M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2','c:12,7,4'],
+  bell:['M10.268 21a2 2 0 0 0 3.464 0','M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326'],
+  check:['M20 6 9 17l-5-5'],
+  shield:['M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z','m9 12 2 2 4-4'],
+  clock:['c:12,12,10','M12 6v6l4 2'],
+  plus:['M5 12h14','M12 5v14'], minus:['M5 12h14'],
+  logout:['m16 17 5-5-5-5','M21 12H9','M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4'],
+  map:['M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z','M15 5.764v15','M9 3.236v15'],
+  help:['c:12,12,10','M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3','M12 17h.01']
+};
+const h = React.createElement;
+function ic(n, size = 22, fill) {
+  return h('svg', { width: size, height: size, viewBox: '0 0 24 24', fill: fill ? 'currentColor' : 'none', stroke: 'currentColor', strokeWidth: 2.75, strokeLinecap: 'round', strokeLinejoin: 'round', style: { display: 'block', flex: 'none' } },
+    SV[n].map((s, i) => {
+      if (s.startsWith('c:')) { const [cx, cy, r] = s.slice(2).split(','); return h('circle', { key: i, cx, cy, r }); }
+      if (s.startsWith('r:')) { const [x, y, width, height, rx] = s.slice(2).split(','); return h('rect', { key: i, x, y, width, height, rx }); }
+      return h('path', { key: i, d: s });
+    }));
+}
+const CATS = [
+  { id: 'electrician', name: 'Electrician', icon: 'zap', skills: ['Wiring', 'Switchboards', 'Fan & light fitting', 'Inverter setup', 'MCB repair'] },
+  { id: 'plumber', name: 'Plumber', icon: 'wrench', skills: ['Leak repair', 'Tap fitting', 'Drain unclogging', 'Tank cleaning', 'Geyser install'] },
+  { id: 'carpenter', name: 'Carpenter', icon: 'hammer', skills: ['Furniture repair', 'Door & lock fitting', 'Modular assembly', 'Polishing', 'Custom shelves'] },
+  { id: 'ac', name: 'AC repair', icon: 'snow', skills: ['Gas refill', 'Split AC service', 'Installation', 'Cooling issues', 'PCB repair'] },
+  { id: 'fridge', name: 'Fridge repair', icon: 'fridge', skills: ['Not cooling', 'Compressor', 'Thermostat', 'Gas charging', 'Door seal'] },
+  { id: 'washer', name: 'Washing machine', icon: 'washer', skills: ['Drum issues', 'Drain pump', 'Front-load service', 'Top-load service', 'Motor repair'] },
+  { id: 'dog', name: 'Dog walking', icon: 'paw', skills: ['Daily walks', 'Pet sitting', 'Feeding visits', 'Puppy training', 'Large breeds'] },
+  { id: 'painter', name: 'Painter', icon: 'roller', skills: ['Wall painting', 'Texture finish', 'Waterproofing', 'Wood polish', 'Touch-ups'] }
+];
+const NAMES = ['Ravi Kumar', 'Suresh Gowda', 'Imran Khan', 'Manjunath R', 'Anil Sharma', 'Prakash Naik', 'Deepak Yadav', 'Arjun Reddy', 'Salim Sheikh', 'Vinod Pillai', 'Ramesh Babu', 'Kiran Shetty', 'Farhan Ali', 'Mahesh Patil', 'Naveen Raj', "Joseph D'Souza", 'Ganesh Murthy', 'Rahul Verma', 'Santosh Kamath', 'Abdul Rahman', 'Venkatesh S', 'Harish Rao', 'Mohan Das', 'Sunil Jadhav'];
+const WALKERS = ['Ananya Iyer', 'Priya Nair', 'Rohan Mehta', 'Sneha Kulkarni', 'Kavya Rao', 'Aditya Bose', 'Meera Joshi'];
+const LANGS = [['Kannada', 'English'], ['Hindi', 'English'], ['Kannada', 'Hindi', 'English'], ['Tamil', 'English'], ['Telugu', 'Hindi']];
+const rnd = n => { const x = Math.sin(n * 12.9898 + 78.233) * 43758.5453; return x - Math.floor(x); };
+const PROS = [];
+CATS.forEach((c, ci) => {
+  for (let k = 0; k < 7; k++) {
+    const s = ci * 31 + k * 7 + 1, pool = c.id === 'dog' ? WALKERS : NAMES, name = pool[(ci * 5 + k * 3) % pool.length];
+    const sk = c.skills.slice(k % 5).concat(c.skills).slice(0, 3);
+    const years = 1 + Math.floor(rnd(s + 5) * 14);
+    PROS.push({
+      id: c.id + k, cat: c.id, catName: c.name, name, first: name.split(' ')[0], skills: sk, allSkills: c.skills,
+      requests: 18 + Math.floor(rnd(s) * 420), rating: (3.6 + rnd(s + 1) * 1.4).toFixed(1),
+      dist: +(0.3 + rnd(s + 2) * 7.5).toFixed(1), rate: (c.id === 'dog' ? 149 : 199) + Math.floor(rnd(s + 3) * 7) * 50,
+      unit: c.id === 'dog' ? 'walk' : 'visit', avail: rnd(s + 4) > 0.35, years, langs: LANGS[(ci + k) % 5], verified: rnd(s + 6) > 0.25,
+      bio: c.id === 'dog'
+        ? `Walking dogs around Indiranagar for ${years} year${years > 1 ? 's' : ''}. Comfortable with large breeds and anxious pups. Sends a photo update after every walk.`
+        : `${years} years of ${c.name.toLowerCase()} work across east Bengaluru. Specialises in ${sk[0].toLowerCase()} and ${sk[1].toLowerCase()}. Carries own tools and cleans up after the job.`
+    });
+  }
+});
+const byId = id => PROS.find(p => p.id === id);
+const DAYS = [{ top: 'Today', bottom: 'Sat 17' }, { top: 'Tomorrow', bottom: 'Sun 18' }, { top: 'Mon', bottom: 'Oct 19' }, { top: 'Tue', bottom: 'Oct 20' }];
+const SLOTS = ['9–11 AM', '11–1 PM', '1–3 PM', '3–5 PM', '5–7 PM', '7–9 PM'];
+const HOURS = ['6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM'];
+const WEEK = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const LANG_OPTS = ['English', 'Hindi', 'Kannada', 'Tamil', 'Telugu', 'Marathi'];
+const chip = sel => sel
+  ? { bg: 'var(--color-accent)', fg: 'var(--color-bg)', bd: 'var(--color-accent)' }
+  : { bg: 'var(--color-neutral-100)', fg: 'var(--color-text)', bd: 'var(--color-divider)' };
+const STATUS = {
+  Pending: ['var(--color-accent-100)', 'var(--color-accent-800)'],
+  Accepted: ['var(--color-accent-2-100)', 'var(--color-accent-2-800)'],
+  Completed: ['var(--color-neutral-300)', 'var(--color-neutral-800)'],
+  Declined: ['var(--color-neutral-200)', 'var(--color-neutral-700)'],
+  Cancelled: ['var(--color-neutral-200)', 'var(--color-neutral-700)']
+};
+const AV = ['var(--color-accent-500)', 'var(--color-accent-2-600)', 'var(--color-accent-700)'];
+
+class Component extends DCLogic {
+  state = {
+    screen: 'splash', hist: [], ob: 0, phone: '', otp: '', name: '', q: '',
+    cat: 'electrician', sort: 'distance', availOnly: false, priceCap: false, pid: 'electrician0',
+    req: { skill: null, day: 0, slot: null, note: '' }, lastReq: { skill: '', when: '' },
+    bookings: [
+      { id: 'b1', pid: 'plumber2', skill: 'Leak repair', when: 'Wed 14 Oct · 11–1 PM', status: 'Completed', myRating: 0 },
+      { id: 'b2', pid: 'ac1', skill: 'Split AC service', when: 'Sun 18 Oct · 3–5 PM', status: 'Accepted' }
+    ],
+    incoming: [
+      { id: 'i1', customer: 'Nisha Menon', dist: '0.8 km', area: 'HAL 2nd Stage', skill: 'Fan & light fitting', when: 'Today · 5–7 PM', note: 'Two ceiling fans in the bedrooms need replacing. Fans are already bought.', status: 'Pending' },
+      { id: 'i2', customer: 'Karthik Rao', dist: '2.1 km', area: 'Domlur', skill: 'Switchboards', when: 'Tomorrow · 9–11 AM', note: '', status: 'Pending' },
+      { id: 'i3', customer: 'Fatima Begum', dist: '1.4 km', area: 'Jeevan Bima Nagar', skill: 'Wiring', when: 'Mon 19 Oct · 1–3 PM', note: 'Kitchen socket sparks when the mixer is plugged in.', status: 'Accepted' }
+    ],
+    listed: false, accepting: true,
+    su: { step: 1, name: '', bio: '', langs: ['English'], cats: [], skills: [], years: 2, rate: '', unit: 'visit', radius: 5, days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], from: '9 AM', to: '7 PM', idType: 'Aadhaar' }
+  };
+  componentDidMount() { this.t = setTimeout(() => { if (this.state.screen === 'splash') this.setState({ screen: 'onboard' }); }, 1800); }
+  componentWillUnmount() { clearTimeout(this.t); }
+  go = (screen, extra = {}) => this.setState(s => ({ screen, hist: [...s.hist, s.screen], ...extra }));
+  reset = (screen, extra = {}) => this.setState({ screen, hist: [], ...extra });
+  back = () => this.setState(s => { const hist = [...s.hist]; const prev = hist.pop() || 'home'; return { screen: prev, hist }; });
+  setSu = patch => this.setState(s => ({ su: { ...s.su, ...patch } }));
+  toggleIn = (arr, v) => arr.includes(v) ? arr.filter(x => x !== v) : [...arr, v];
+
+  renderVals() {
+    const st = this.state, P = this.props, R = P.radiusKm ?? 5, plat = P.platform ?? 'ios';
+    const isIOS = plat === 'ios';
+    const I = {
+      chevL: ic('chevL'), chevR: ic('chevR', 18), chevD: ic('chevD', 16), pin: ic('pin', 20), bell: ic('bell', 20), search: ic('search', 20),
+      user: ic('user', 28), starSm: ic('star', 14, true), star: ic('star', 26, true), shieldSm: ic('shield', 16), shield: ic('shield', 20),
+      clock: ic('clock', 22), clockSm: ic('clock', 16), checkLg: ic('check', 44), plus: ic('plus', 18), minus: ic('minus', 18), logout: ic('logout', 18)
+    };
+    const screenList = [['splash', 'Splash'], ['onboard', 'Onboarding'], ['phone', 'Sign in'], ['otp', 'OTP'], ['name', 'Create account'], ['home', 'Home'], ['listing', 'Category listing'], ['detail', 'Provider detail'], ['request', 'Request service'], ['requests', 'My requests'], ['setup', 'List yourself (setup)'], ['work', 'Provider dashboard'], ['profile', 'Profile']];
+    const screenMap = screenList.map(([k, label]) => {
+      const on = st.screen === k || (k === 'request' && st.screen === 'sent') || (k === 'setup' && st.screen === 'live');
+      return { label, bg: on ? 'var(--color-accent)' : 'transparent', fg: on ? 'var(--color-bg)' : 'var(--color-text)', go: () => this.reset(k, k === 'otp' && st.phone.length < 10 ? { phone: '9876543210' } : {}) };
+    });
+    const is = {}; ['splash', 'onboard', 'phone', 'otp', 'name', 'home', 'listing', 'detail', 'request', 'sent', 'requests', 'work', 'profile', 'setup', 'live'].forEach(k => is[k] = st.screen === k);
+    const tabsOn = ['home', 'requests', 'work', 'profile'].includes(st.screen);
+    const lightStatus = st.screen === 'splash';
+
+    const OB = [
+      { title: 'Help, a few streets away', body: `See electricians, plumbers, dog walkers and more within ${R} km of your home.`, icon: ic('pin', 44), bg1: 'var(--color-accent-200)', bg2: 'var(--color-accent-2-300)' },
+      { title: 'Pick by rating and track record', body: 'Every pro shows their skills, how many requests they have handled and a rating out of 5.', icon: ic('star', 44, true), bg1: 'var(--color-accent-2-200)', bg2: 'var(--color-accent-300)' },
+      { title: 'Earn with your skills', body: 'One account does both. List yourself in a few minutes and get requests from neighbours.', icon: ic('brief', 44), bg1: 'var(--color-accent-300)', bg2: 'var(--color-accent-2-200)' }
+    ];
+    const o = OB[st.ob];
+    const ob = { ...o, cta: st.ob === 2 ? 'Get started' : 'Next', dots: OB.map((_, i) => ({ w: i === st.ob ? 26 : 8, bg: i === st.ob ? 'var(--color-accent)' : 'var(--color-neutral-400)' })) };
+
+    const digits = st.phone.replace(/\D/g, '');
+    const phoneFmt = digits ? digits.slice(0, 5) + ' ' + digits.slice(5) : '98765 43210';
+    const otpBoxes = [0, 1, 2, 3].map(i => ({ d: st.otp[i] || '', bd: i === st.otp.length ? 'var(--color-accent)' : 'var(--color-divider)' }));
+    const displayName = st.name.trim() || st.su.name.trim() || 'Asha Rao';
+    const firstName = displayName.split(' ')[0];
+
+    // home
+    const q = st.q.trim().toLowerCase();
+    const cats = CATS.filter(c => !q || c.name.toLowerCase().includes(q) || c.skills.some(s => s.toLowerCase().includes(q))).map((c, i) => ({
+      name: c.name, icon: ic(c.icon, 30), bg: i % 3 === 1 ? 'var(--color-accent-2-200)' : i % 3 === 2 ? 'var(--color-neutral-100)' : 'var(--color-accent-200)',
+      fg: i % 3 === 1 ? 'var(--color-accent-2-800)' : 'var(--color-accent-800)',
+      open: () => this.go('listing', { cat: c.id })
+    }));
+    const view = p => ({
+      ...p, photoId: 'pro-' + p.id, distTxt: `${p.dist} km`, rateTxt: `₹${p.rate}`,
+      availTxt: p.avail ? 'Available today' : 'From tomorrow',
+      availBg: p.avail ? 'var(--color-accent-2-100)' : 'var(--color-neutral-200)', availFg: p.avail ? 'var(--color-accent-2-800)' : 'var(--color-neutral-700)',
+      langTxt: p.langs.join(', '), work1: `work-${p.id}-1`, work2: `work-${p.id}-2`, work3: `work-${p.id}-3`,
+      open: () => this.go('detail', { pid: p.id, req: { skill: null, day: 0, slot: null, note: '' } })
+    });
+    const topPros = PROS.filter(p => p.dist <= R).sort((a, b) => b.rating - a.rating).slice(0, 6).map(view);
+
+    // listing
+    const cat = CATS.find(c => c.id === st.cat);
+    const inCat = PROS.filter(p => p.cat === st.cat);
+    let listing = inCat.filter(p => p.dist <= R);
+    const hiddenCount = inCat.length - listing.length;
+    if (st.availOnly) listing = listing.filter(p => p.avail);
+    if (st.priceCap) listing = listing.filter(p => p.rate < 400);
+    listing = listing.sort((a, b) => st.sort === 'distance' ? a.dist - b.dist : b.rating - a.rating).map(view);
+    const fc = (label, on, toggle) => ({ label, toggle, ...chip(on) });
+    const filterChips = [
+      fc('Nearest', st.sort === 'distance', () => this.setState({ sort: 'distance' })),
+      fc('Top rated', st.sort === 'rating', () => this.setState({ sort: 'rating' })),
+      fc('Available today', st.availOnly, () => this.setState(s => ({ availOnly: !s.availOnly }))),
+      fc('Under ₹400', st.priceCap, () => this.setState(s => ({ priceCap: !s.priceCap })))
+    ];
+
+    // detail + request
+    const pro = view(byId(st.pid));
+    const r = st.req;
+    const setReq = patch => this.setState(s => ({ req: { ...s.req, ...patch } }));
+    const reqSkills = pro.allSkills.map(s => ({ label: s, pick: () => setReq({ skill: s }), ...chip(r.skill === s) }));
+    const reqDays = DAYS.map((d, i) => ({ ...d, pick: () => setReq({ day: i }), ...chip(r.day === i) }));
+    const reqSlots = SLOTS.map(s => ({ label: s, pick: () => setReq({ slot: s }), ...chip(r.slot === s) }));
+    const reqInvalid = !r.skill || !r.slot;
+    const reqHint = !r.skill ? 'Pick what you need' : !r.slot ? 'Pick a time slot' : `${pro.first} usually replies within 15 minutes`;
+    const whenTxt = `${DAYS[r.day].top === 'Today' || DAYS[r.day].top === 'Tomorrow' ? DAYS[r.day].top : DAYS[r.day].top + ' ' + DAYS[r.day].bottom.split(' ')[1] + ' Oct'} · ${r.slot}`;
+    const sendRequest = () => {
+      const b = { id: 'b' + Date.now(), pid: pro.id, skill: r.skill, when: whenTxt, status: 'Pending' };
+      this.go('sent', { bookings: [b, ...st.bookings], lastReq: { skill: r.skill, when: whenTxt } });
+    };
+
+    const bookings = st.bookings.map(b => {
+      const p = byId(b.pid), [stBg, stFg] = STATUS[b.status];
+      const setB = patch => this.setState(s => ({ bookings: s.bookings.map(x => x.id === b.id ? { ...x, ...patch } : x) }));
+      return {
+        ...b, proName: p.name, proFirst: p.first, catName: p.catName, photoId: 'pro-' + p.id, stBg, stFg,
+        canCancel: b.status === 'Pending' || b.status === 'Accepted', canRate: b.status === 'Completed',
+        cancel: () => setB({ status: 'Cancelled' }),
+        stars: [1, 2, 3, 4, 5].map(n => ({ pick: () => setB({ myRating: n }), color: n <= (b.myRating || 0) ? 'var(--color-accent)' : 'var(--color-neutral-400)' }))
+      };
+    });
+
+    // provider dashboard
+    const su = st.su;
+    const myRate = parseInt(su.rate, 10) || 0;
+    const incoming = st.incoming.map((x, i) => {
+      const [stBg, stFg] = STATUS[x.status];
+      const set = status => this.setState(s => ({ incoming: s.incoming.map(y => y.id === x.id ? { ...y, status } : y) }));
+      return { ...x, initial: x.customer[0], avBg: AV[i % 3], stBg, stFg, hasNote: !!x.note, pending: x.status === 'Pending', accept: () => set('Accepted'), decline: () => set('Declined') };
+    });
+    const newCount = st.incoming.filter(x => x.status === 'Pending').length;
+    const jobsCount = st.incoming.filter(x => x.status === 'Accepted').length;
+    const myCatNames = CATS.filter(c => su.cats.includes(c.id)).map(c => c.name);
+    const acc = st.accepting
+      ? { label: 'Accepting', bg: 'var(--color-accent-2-100)', fg: 'var(--color-accent-2-800)', track: 'var(--color-accent-2-600)', knob: 19 }
+      : { label: 'Paused', bg: 'var(--color-neutral-200)', fg: 'var(--color-neutral-700)', track: 'var(--color-neutral-500)', knob: 3 };
+
+    // setup
+    const skillPool = [...new Set(CATS.filter(c => su.cats.includes(c.id)).flatMap(c => c.skills))];
+    const TITLES = ['About you', 'What you do', 'Rate, reach and hours', 'Verify and showcase'];
+    const invalid = su.step === 1 ? !su.name.trim() : su.step === 2 ? su.cats.length === 0 : su.step === 3 ? (!myRate || su.days.length === 0) : false;
+    const HINTS = ['Name is required', 'Pick at least one service', 'Set a rate and at least one day', ''];
+    const suv = {
+      step: su.step, title: TITLES[su.step - 1], s1: su.step === 1, s2: su.step === 2, s3: su.step === 3, s4: su.step === 4,
+      bars: [1, 2, 3, 4].map(n => ({ bg: n <= su.step ? 'var(--color-accent)' : 'var(--color-neutral-300)' })),
+      name: su.name, bio: su.bio, years: su.years, rate: su.rate, radius: su.radius, from: su.from, to: su.to,
+      setName: e => this.setSu({ name: e.target.value }), setBio: e => this.setSu({ bio: e.target.value }),
+      setRate: e => this.setSu({ rate: e.target.value.replace(/\D/g, '').slice(0, 5) }),
+      setRadius: e => this.setSu({ radius: +e.target.value }),
+      setFrom: e => this.setSu({ from: e.target.value }), setTo: e => this.setSu({ to: e.target.value }),
+      yearsUp: () => this.setSu({ years: Math.min(40, su.years + 1) }), yearsDown: () => this.setSu({ years: Math.max(0, su.years - 1) }),
+      langs: LANG_OPTS.map(l => ({ label: l, pick: () => this.setSu({ langs: this.toggleIn(su.langs, l) }), ...chip(su.langs.includes(l)) })),
+      cats: CATS.map(c => ({ label: c.name, icon: ic(c.icon, 20), pick: () => {
+        const cats = this.toggleIn(su.cats, c.id);
+        const pool = CATS.filter(x => cats.includes(x.id)).flatMap(x => x.skills);
+        this.setSu({ cats, skills: su.skills.filter(s => pool.includes(s)) });
+      }, ...chip(su.cats.includes(c.id)) })),
+      hasSkills: skillPool.length > 0,
+      skills: skillPool.map(s => ({ label: s, pick: () => this.setSu({ skills: this.toggleIn(su.skills, s) }), ...chip(su.skills.includes(s)) })),
+      units: [['visit', 'Per visit'], ['hour', 'Per hour']].map(([k, label]) => ({ label, pick: () => this.setSu({ unit: k }), bg: su.unit === k ? 'var(--color-accent)' : 'transparent', fg: su.unit === k ? 'var(--color-bg)' : 'var(--color-text)' })),
+      days: WEEK.map(d => ({ label: d.slice(0, 2), pick: () => this.setSu({ days: this.toggleIn(su.days, d) }), ...chip(su.days.includes(d)) })),
+      ids: ['Aadhaar', 'PAN', 'Driving licence'].map(t => ({ label: t, pick: () => this.setSu({ idType: t }), ...chip(su.idType === t) })),
+      invalid, hint: invalid ? HINTS[su.step - 1] : su.step === 4 ? 'You can add these later. Verified pros rank higher.' : '',
+      cta: su.step === 4 ? (st.listed ? 'Save changes' : 'Publish my listing') : 'Continue',
+      next: () => {
+        if (su.step < 4) return this.setSu({ step: su.step + 1 });
+        if (!st.name.trim()) this.setState({ name: su.name });
+        if (st.listed) this.reset('work', { su: { ...su, step: 1 } });
+        else this.setState(s => ({ listed: true, screen: 'live', hist: [], su: { ...s.su, step: 1 } }));
+      }
+    };
+    const setupBack = () => su.step > 1 ? this.setSu({ step: su.step - 1 }) : this.back();
+
+    const tabs = [['home', 'Home', 'home'], ['requests', 'Requests', 'list'], ['work', 'My work', 'brief'], ['profile', 'Profile', 'user']].map(([k, label, icn]) => {
+      const on = st.screen === k;
+      return { label, icon: ic(icn, 22), fg: on ? 'var(--color-accent-700)' : 'var(--color-neutral-700)', bg: on ? 'var(--color-accent-100)' : 'transparent', badge: k === 'work' && st.listed && newCount ? newCount : 0, go: () => this.reset(k) };
+    });
+
+    const profileRows = [
+      { label: st.listed ? 'Edit provider profile' : 'List yourself as a pro', icon: ic('brief', 20), go: () => this.go('setup') },
+      { label: 'Saved addresses', icon: ic('map', 20), go: () => {} },
+      { label: 'My requests', icon: ic('list', 20), go: () => this.reset('requests') },
+      { label: 'Help & support', icon: ic('help', 20), go: () => {} }
+    ];
+
+    return {
+      I, is, isIOS, isAndroid: !isIOS, platformLabel: isIOS ? 'iOS' : 'Android', frameRadius: isIOS ? 56 : 40, statusPad: isIOS ? 34 : 24,
+      statusColor: lightStatus ? 'var(--color-bg)' : 'var(--color-text)', tabPad: isIOS ? 28 : 20,
+      screenMap, ob, back: this.back,
+      toOnboard: () => this.setState({ screen: 'onboard' }),
+      toAuth: () => this.reset('phone'),
+      obNext: () => st.ob < 2 ? this.setState({ ob: st.ob + 1 }) : this.reset('phone'),
+      phone: st.phone, setPhone: e => this.setState({ phone: e.target.value.replace(/\D/g, '').slice(0, 10) }),
+      phoneInvalid: digits.length !== 10, phoneFmt,
+      sendOtp: () => this.go('otp', { otp: '' }),
+      socialSignIn: () => this.go('name', { name: st.name || 'Asha Rao' }),
+      otp: st.otp, otpBoxes, setOtp: e => this.setState({ otp: e.target.value.replace(/\D/g, '').slice(0, 4) }),
+      otpInvalid: st.otp.length !== 4, verifyOtp: () => this.go('name'),
+      name: st.name, setName: e => this.setState({ name: e.target.value }), nameInvalid: !st.name.trim(),
+      finishAccount: () => this.reset('home'),
+      firstName, displayName, radius: R, q: st.q, setQ: e => this.setState({ q: e.target.value }), cats, noCats: cats.length === 0, topPros,
+      bannerKicker: st.listed ? 'You are listed' : 'Earn on Expovice',
+      bannerTitle: st.listed ? `${newCount} new request${newCount === 1 ? '' : 's'} waiting for you` : 'Got a skill? List yourself and get requests nearby',
+      bannerCta: st.listed ? 'Open dashboard' : 'Start listing',
+      bannerGo: () => st.listed ? this.reset('work') : this.go('setup'),
+      catName: cat.name, listing, listCount: listing.length, noResults: listing.length === 0, hiddenCount, hasHidden: hiddenCount > 0, filterChips,
+      clearFilters: () => this.setState({ availOnly: false, priceCap: false }),
+      pro, toRequest: () => this.go('request'), reqSkills, reqDays, reqSlots, reqInvalid, reqHint, reqNote: r.note,
+      setReqNote: e => setReq({ note: e.target.value }), sendRequest,
+      lastReq: st.lastReq, sentBody: `${pro.first} has been notified and usually replies within 15 minutes. You'll get an SMS when they accept.`,
+      toRequests: () => this.reset('requests'), toHome: () => this.reset('home'), toWork: () => this.reset('work'),
+      bookings,
+      notListed: !st.listed, listed: st.listed, startSetup: () => this.go('setup'),
+      listSteps: [
+        { n: 1, t: 'About you', d: 'Photo, name, bio and languages' },
+        { n: 2, t: 'What you do', d: 'Services, skills and experience' },
+        { n: 3, t: 'Rate and reach', d: 'Pricing, radius and working hours' },
+        { n: 4, t: 'Verify', d: 'ID check and photos of your work' }
+      ],
+      acc, toggleAccepting: () => this.setState(s => ({ accepting: !s.accepting })),
+      newCount, jobsCount, earnTxt: `₹${(jobsCount * (myRate || 350)).toLocaleString('en-IN')}`, incoming,
+      myListingLine: `Listed in ${myCatNames.join(', ') || 'your services'} · ${su.radius} km radius · ${su.from}–${su.to}`,
+      meTag: st.listed ? { label: 'Listed as a pro', bg: 'var(--color-accent-2-100)', fg: 'var(--color-accent-2-800)' } : { label: 'Customer', bg: 'var(--color-neutral-100)', fg: 'var(--color-neutral-800)' },
+      profileRows, signOut: () => this.reset('phone', { phone: '', otp: '' }),
+      su: suv, setupBack, exitSetup: () => this.reset(st.listed ? 'work' : 'home'), hours: HOURS,
+      liveBody: `Customers within ${su.radius} km can now find you under ${myCatNames.join(', ') || 'your services'}. New requests will show up in My work.`,
+      mySkills: (su.skills.length ? su.skills : skillPool).slice(0, 3), myRateTxt: `₹${myRate}/${su.unit}`,
+      showTabs: tabsOn, tabs
+    };
+  }
+}
+</script>
+</body>
+</html>

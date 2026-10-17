@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- ONBOARDING: circle illustration, title/body, dots + Next. -->
+<pages:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:pages="clr-namespace:Expovice.App.Pages"
+                xmlns:c="clr-namespace:Expovice.App.Controls"
+                xmlns:vm="clr-namespace:Expovice.App.Core.ViewModels;assembly=Expovice.App.Core"
+                x:Class="Expovice.App.Pages.OnboardingPage"
+                x:DataType="vm:OnboardingViewModel">
+  <Grid RowDefinitions="Auto,360,*,Auto">
+    <Button Text="Skip" Style="{StaticResource GhostButton}" FontFamily="Caprasimo"
+            HorizontalOptions="End" Margin="20,8" Command="{Binding SkipCommand}" />
+
+    <Grid Grid.Row="1" Margin="24,0">
+      <BoxView WidthRequest="280" HeightRequest="280" CornerRadius="140" HorizontalOptions="Start" VerticalOptions="Start" Margin="0,30,0,0"
+               Color="{Binding Current.Circle1Key, Converter={StaticResource ColorKey}}" />
+      <BoxView WidthRequest="150" HeightRequest="150" CornerRadius="75" HorizontalOptions="End" VerticalOptions="Start" Margin="0,0,10,0"
+               Color="{Binding Current.Circle2Key, Converter={StaticResource ColorKey}}" />
+      <BoxView WidthRequest="70" HeightRequest="70" CornerRadius="35" HorizontalOptions="End" VerticalOptions="End" Margin="0,0,60,10"
+               Color="{StaticResource Accent300}" />
+      <Border WidthRequest="100" HeightRequest="100" StrokeShape="RoundRectangle 50" StrokeThickness="0"
+              Background="{StaticResource BgBrush}" HorizontalOptions="Start" VerticalOptions="Start" Margin="90,120,0,0">
+        <Border.Shadow>
+          <Shadow Brush="{StaticResource ShadowColorBrush}" Offset="0,3" Radius="10" Opacity="0.16" />
+        </Border.Shadow>
+        <c:IconView Icon="{Binding Current.Icon}" Filled="{Binding Current.IconFilled}" Size="44" Color="{StaticResource Accent700}" />
+      </Border>
+    </Grid>
+
+    <VerticalStackLayout Grid.Row="2" Padding="28,28,28,0" Spacing="10">
+      <Label Text="{Binding Current.Title}" Style="{StaticResource Heading}" />
+      <Label Text="{Binding Current.Body}" Style="{StaticResource Body}" />
+    </VerticalStackLayout>
+
+    <Grid Grid.Row="3" ColumnDefinitions="*,Auto" Padding="28,0,28,40">
+      <HorizontalStackLayout Spacing="6" VerticalOptions="Center" BindableLayout.ItemsSource="{Binding Dots}">
+        <BindableLayout.ItemTemplate>
+          <DataTemplate x:DataType="vm:ProgressMark">
+            <BoxView HeightRequest="8" WidthRequest="8" CornerRadius="4" Color="{StaticResource Neutral400}">
+              <BoxView.Triggers>
+                <DataTrigger TargetType="BoxView" Binding="{Binding IsActive}" Value="True">
+                  <Setter Property="WidthRequest" Value="26" />
+                  <Setter Property="Color" Value="{StaticResource Accent}" />
+                </DataTrigger>
+              </BoxView.Triggers>
+            </BoxView>
+          </DataTemplate>
+        </BindableLayout.ItemTemplate>
+      </HorizontalStackLayout>
+      <Button Grid.Column="1" Text="{Binding CtaText}" Style="{StaticResource PrimaryButton}" Command="{Binding NextCommand}" />
+    </Grid>
+  </Grid>
+</pages:BasePage>

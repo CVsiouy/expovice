@@ -1,0 +1,24 @@
+# Local stand-ins for the Azure services: SQL Server (for Azure SQL) and Azurite (for Blob Storage).
+# Usage: SA_PASSWORD='<a strong password>' docker compose up -d
+services:
+  sql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${SA_PASSWORD:?Set SA_PASSWORD in your shell}
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql-data:/var/opt/mssql
+
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite:latest
+    command: azurite-blob --blobHost 0.0.0.0 --loose
+    ports:
+      - "10000:10000"
+    volumes:
+      - azurite-data:/data
+
+volumes:
+  sql-data:
+  azurite-data:

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- MY WORK: "Earn with your skills" pitch, or the provider dashboard once listed. -->
+<pages:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:pages="clr-namespace:Expovice.App.Pages"
+                xmlns:c="clr-namespace:Expovice.App.Controls"
+                xmlns:abs="clr-namespace:Expovice.App.Core.Abstractions;assembly=Expovice.App.Core"
+                xmlns:vm="clr-namespace:Expovice.App.Core.ViewModels;assembly=Expovice.App.Core"
+                x:Class="Expovice.App.Pages.WorkPage"
+                x:DataType="vm:WorkViewModel">
+  <Grid RowDefinitions="*,Auto">
+    <ScrollView>
+      <VerticalStackLayout Padding="16,14,16,24" Spacing="14">
+        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{StaticResource Accent}" />
+
+        <!-- Not listed yet -->
+        <VerticalStackLayout Spacing="14" IsVisible="{Binding IsNotListed}">
+          <Label Text="Earn with your skills" Style="{StaticResource H30}" Padding="4,0" />
+          <Label Text="List yourself and neighbours within your service radius can find and request you." FontSize="15" LineHeight="1.5"
+                 TextColor="{StaticResource Neutral800}" Padding="4,0" />
+          <Border StrokeShape="RoundRectangle 32" StrokeThickness="0" Background="{StaticResource SurfaceBrush}" Padding="20">
+            <VerticalStackLayout Spacing="16" BindableLayout.ItemsSource="{x:Static vm:WorkViewModel.Steps}">
+              <BindableLayout.ItemTemplate>
+                <DataTemplate x:DataType="vm:ListingStep">
+                  <Grid ColumnDefinitions="40,*" ColumnSpacing="14">
+                    <Border WidthRequest="40" HeightRequest="40" StrokeShape="RoundRectangle 20" StrokeThickness="0" Background="{StaticResource Accent100Brush}">
+                      <Label Text="{Binding Number}" FontFamily="Caprasimo" FontSize="17" TextColor="{StaticResource Accent700}" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
+                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                      <Label Text="{Binding Title}" FontFamily="FigtreeBold" FontSize="15" />
+                      <Label Text="{Binding Description}" FontSize="13" TextColor="{StaticResource Neutral700}" />
+                    </VerticalStackLayout>
+                  </Grid>
+                </DataTemplate>
+              </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+          </Border>
+          <Button Text="Start listing" Style="{StaticResource PrimaryButton}" HeightRequest="54" Command="{Binding StartSetupCommand}" />
+        </VerticalStackLayout>
+
+        <!-- Dashboard -->
+        <VerticalStackLayout Spacing="14" IsVisible="{Binding IsListed}">
+          <Grid ColumnDefinitions="*,Auto" Padding="4,0">
+            <Label Text="My work" Style="{StaticResource H30}" />
+            <Border Grid.Column="1" StrokeShape="RoundRectangle 999" StrokeThickness="0" Padding="12,6,6,6" VerticalOptions="Center"
+                    Background="{Binding ToggleBackgroundKey, Converter={StaticResource ColorKey}}"
+                    SemanticProperties.Description="Toggle accepting new requests">
+              <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ToggleAcceptingCommand}" />
+              </Border.GestureRecognizers>
+              <HorizontalStackLayout Spacing="8">
+                <Label Text="{Binding AcceptingLabel}" FontFamily="FigtreeBold" FontSize="13" VerticalOptions="Center"
+                       TextColor="{Binding ToggleForegroundKey, Converter={StaticResource ColorKey}}" />
+                <Border WidthRequest="40" HeightRequest="24" StrokeShape="RoundRectangle 12" StrokeThickness="0"
+                        Background="{Binding TrackKey, Converter={StaticResource ColorKey}}">
+                  <BoxView WidthRequest="18" HeightRequest="18" CornerRadius="9" Color="{StaticResource Bg}"
+                           HorizontalOptions="Start" VerticalOptions="Center" TranslationX="{Binding KnobOffset}" />
+                </Border>
+              </HorizontalStackLayout>
+            </Border>
+          </Grid>
+
+          <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+            <Border Style="{StaticResource StatTile}" Background="{StaticResource Accent100Brush}">
+              <VerticalStackLayout>
+                <Label Text="{Binding NewCount}" FontFamily="Caprasimo" FontSize="24" TextColor="{StaticResource Accent700}" />
+                <Label Text="New requests" FontSize="12" TextColor="{StaticResource Accent800}" />
+              </VerticalStackLayout>
+            </Border>
+            <Border Grid.Column="1" Style="{StaticResource StatTile}">
+              <VerticalStackLayout>
+                <Label Text="{Binding AcceptedCount}" FontFamily="Caprasimo" FontSize="24" />
+                <Label Text="Jobs accepted" Style="{StaticResource Muted}" />
+              </VerticalStackLayout>
+            </Border>
+            <Border Grid.Column="2" Style="{StaticResource StatTile}">
+              <VerticalStackLayout>
+                <Label Text="{Binding BookedValueText}" FontFamily="Caprasimo" FontSize="24" />
+                <Label Text="Booked value" Style="{StaticResource Muted}" />
+              </VerticalStackLayout>
+            </Border>
+          </Grid>
+
+          <Border StrokeShape="RoundRectangle 24" StrokeThickness="0" Background="{StaticResource Sage100Brush}" Padding="14,12">
+            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+              <c:IconView Icon="shield" Size="16" Color="{StaticResource Sage800}" />
+              <Label Grid.Column="1" Text="{Binding ListingLine}" FontSize="13" TextColor="{StaticResource Sage800}" VerticalOptions="Center" />
+              <Button Grid.Column="2" Text="Edit" Style="{StaticResource GhostButton}" FontSize="13" TextColor="{StaticResource Sage800}" Command="{Binding StartSetupCommand}" />
+            </Grid>
+          </Border>
+
+          <Label Text="Incoming requests" Style="{StaticResource H20}" Padding="4,6,4,0" />
+          <VerticalStackLayout Spacing="14" BindableLayout.ItemsSource="{Binding Incoming}">
+            <BindableLayout.ItemTemplate>
+              <DataTemplate x:DataType="vm:IncomingItem">
+                <Border Style="{StaticResource Card}" Padding="16">
+                  <VerticalStackLayout Spacing="10">
+                    <Grid ColumnDefinitions="44,*,Auto" ColumnSpacing="12">
+                      <Border WidthRequest="44" HeightRequest="44" StrokeShape="RoundRectangle 22" StrokeThickness="0"
+                              Background="{Binding AvatarKey, Converter={StaticResource ColorKey}}">
+                        <Label Text="{Binding Initial}" FontFamily="Caprasimo" FontSize="18" TextColor="{StaticResource Bg}" HorizontalOptions="Center" VerticalOptions="Center" />
+                      </Border>
+                      <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                        <Label Text="{Binding CustomerName}" FontFamily="FigtreeBold" />
+                        <Label Text="{Binding Subtitle}" FontSize="12.5" TextColor="{StaticResource Neutral700}" />
+                      </VerticalStackLayout>
+                      <Border Grid.Column="2" Style="{StaticResource Tag}" Background="{Binding StatusBackgroundKey, Converter={StaticResource ColorKey}}">
+                        <Label Text="{Binding StatusText}" Style="{StaticResource TagLabel}" FontFamily="FigtreeBold"
+                               TextColor="{Binding StatusForegroundKey, Converter={StaticResource ColorKey}}" />
+                      </Border>
+                    </Grid>
+                    <Label FontSize="14">
+                      <Label.FormattedText>
+                        <FormattedString>
+                          <Span Text="{Binding Skill}" FontFamily="FigtreeBold" />
+                          <Span Text=" · " />
+                          <Span Text="{Binding WhenText}" />
+                        </FormattedString>
+                      </Label.FormattedText>
+                    </Label>
+                    <Border IsVisible="{Binding HasNote}" StrokeShape="RoundRectangle 18" StrokeThickness="0" Background="{StaticResource Neutral100Brush}" Padding="12,10">
+                      <Label Text="{Binding Note}" FontSize="13.5" LineHeight="1.45" TextColor="{StaticResource Neutral800}" />
+                    </Border>
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="8" IsVisible="{Binding IsPending}">
+                      <Button Text="Decline" Style="{StaticResource SecondaryButton}" FontSize="14" HeightRequest="44" CornerRadius="22" Command="{Binding DeclineCommand}" />
+                      <Button Grid.Column="1" Text="Accept" Style="{StaticResource PrimaryButton}" FontSize="14" HeightRequest="44" CornerRadius="22" Command="{Binding AcceptCommand}" />
+                    </Grid>
+                    <!-- Not in the prototype: lets an accepted job reach "Completed" so the customer can rate it. -->
+                    <Button Text="Mark as done" Style="{StaticResource SecondaryButton}" FontSize="14" HeightRequest="44" CornerRadius="22"
+                            IsVisible="{Binding IsAccepted}" Command="{Binding CompleteCommand}" />
+                  </VerticalStackLayout>
+                </Border>
+              </DataTemplate>
+            </BindableLayout.ItemTemplate>
+          </VerticalStackLayout>
+        </VerticalStackLayout>
+      </VerticalStackLayout>
+    </ScrollView>
+
+    <c:TabBarView Grid.Row="1" Selected="{x:Static abs:Routes.Work}" />
+  </Grid>
+</pages:BasePage>

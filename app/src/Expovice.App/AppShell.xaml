@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Root navigation. "main" holds the four tab pages; Shell's own tab bar and nav bar are hidden in BasePage and
+     replaced by the design's TabBarView. Pushed routes (otp, listing, …) are registered in AppShell.xaml.cs. -->
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:pages="clr-namespace:Expovice.App.Pages"
+       x:Class="Expovice.App.AppShell"
+       Shell.NavBarIsVisible="False"
+       Shell.TabBarIsVisible="False"
+       Shell.FlyoutBehavior="Disabled"
+       BackgroundColor="{StaticResource Bg}">
+  <ShellContent Route="splash" ContentTemplate="{DataTemplate pages:SplashPage}" />
+  <ShellContent Route="onboarding" ContentTemplate="{DataTemplate pages:OnboardingPage}" />
+  <ShellContent Route="signin" ContentTemplate="{DataTemplate pages:PhoneSignInPage}" />
+  <TabBar Route="main">
+    <ShellContent Route="home" ContentTemplate="{DataTemplate pages:HomePage}" />
+    <ShellContent Route="requests" ContentTemplate="{DataTemplate pages:MyRequestsPage}" />
+    <ShellContent Route="work" ContentTemplate="{DataTemplate pages:WorkPage}" />
+    <ShellContent Route="profile" ContentTemplate="{DataTemplate pages:ProfilePage}" />
+  </TabBar>
+</Shell>

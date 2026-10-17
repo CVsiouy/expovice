@@ -1,0 +1,46 @@
+name: deploy-api
+
+# Manual deploy of infrastructure + API to Azure using OpenID Connect (no stored Azure passwords).
+# One-time setup: create an Entra app registration with a federated credential for this repo, grant it
+# Contributor + User Access Administrator on the resource group, then add these repository secrets:
+#   AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_SUBSCRIPTION_ID, AZURE_RESOURCE_GROUP, EXPOVICE_JWT_KEY
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: app/global.json
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Deploy infrastructure
+        id: infra
+        env:
+          EXPOVICE_JWT_KEY: ${{ secrets.EXPOVICE_JWT_KEY }}
+        run: |
+          name=$(az deployment group create \
+            -g "${{ secrets.AZURE_RESOURCE_GROUP }}" \
+            -f infra/main.bicep -p infra/main.bicepparam \
+            --query properties.outputs.webAppName.value -o tsv)
+          echo "webapp=$name" >> "$GITHUB_OUTPUT"
+      - name: Publish API
+        run: dotnet publish src/Expovice.Api -c Release -o ../publish
+      - name: Deploy API
+        run: |
+          cd ../publish && zip -qr ../api.zip .
+          az webapp deploy -g "${{ secrets.AZURE_RESOURCE_GROUP }}" -n "${{ steps.infra.outputs.webapp }}" \
+            --src-path ../api.zip --type zip

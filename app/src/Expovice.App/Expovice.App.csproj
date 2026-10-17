@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-android;net10.0-ios</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Expovice.App</RootNamespace>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <!-- XamlC compiles every page; x:DataType on every page/template makes bindings compiled, and
+         TreatWarningsAsErrors turns any uncompiled binding warning into a build break. -->
+
+    <ApplicationTitle>Expovice</ApplicationTitle>
+    <ApplicationId>app.expovice.mobile</ApplicationId>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#C67139" />
+    <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#C67139" BaseSize="200,80" />
+    <MauiFont Include="Resources\Fonts\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Expovice.App.Core\Expovice.App.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" />
+    <PackageReference Include="CommunityToolkit.Maui" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" />
+  </ItemGroup>
+</Project>

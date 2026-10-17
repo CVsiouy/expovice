@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- LISTED: "You're live on Expovice" with a preview of the listing card. -->
+<pages:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:pages="clr-namespace:Expovice.App.Pages"
+                xmlns:c="clr-namespace:Expovice.App.Controls"
+                xmlns:vm="clr-namespace:Expovice.App.Core.ViewModels;assembly=Expovice.App.Core"
+                x:Class="Expovice.App.Pages.LivePage"
+                x:DataType="vm:LiveViewModel">
+  <Grid IsClippedToBounds="True">
+    <BoxView WidthRequest="300" HeightRequest="300" CornerRadius="150" Color="{StaticResource Sage200}"
+             HorizontalOptions="End" VerticalOptions="Start" Margin="0,-80,-110,0" />
+    <Grid RowDefinitions="*,Auto" Padding="24,60,24,24">
+      <VerticalStackLayout Spacing="18">
+        <Border x:Name="CheckBadge" WidthRequest="96" HeightRequest="96" StrokeShape="RoundRectangle 48" StrokeThickness="0"
+                Background="{StaticResource AccentBrush}" HorizontalOptions="Start">
+          <c:IconView Icon="check" Size="44" Color="{StaticResource Bg}" />
+        </Border>
+        <Label Text="You're live on Expovice" Style="{StaticResource Heading}" FontSize="34" />
+        <Label Text="{Binding Body}" Style="{StaticResource Body}" />
+        <Border Style="{StaticResource Card}">
+          <Border.Shadow>
+            <Shadow Brush="{StaticResource ShadowColorBrush}" Offset="0,3" Radius="10" Opacity="0.16" />
+          </Border.Shadow>
+          <Grid ColumnDefinitions="72,*" ColumnSpacing="14">
+            <c:WashedImage Source="{Binding PhotoUrl}" IsCircle="True" Placeholder="You" WidthRequest="72" HeightRequest="72" />
+            <VerticalStackLayout Grid.Column="1" Spacing="5" VerticalOptions="Center">
+              <Label Text="{Binding DisplayName}" FontFamily="FigtreeBold" FontSize="16" />
+              <FlexLayout Wrap="Wrap" BindableLayout.ItemsSource="{Binding Skills}" BindableLayout.ItemTemplate="{StaticResource SkillTagTemplate}" />
+              <HorizontalStackLayout Spacing="10">
+                <Label Text="New" FontFamily="FigtreeBold" FontSize="12.5" TextColor="{StaticResource Accent700}" />
+                <Label Text="0 requests" FontSize="12.5" TextColor="{StaticResource Neutral800}" />
+                <Label Text="{Binding RateText}" FontFamily="FigtreeBold" FontSize="12.5" TextColor="{StaticResource Neutral800}" />
+              </HorizontalStackLayout>
+            </VerticalStackLayout>
+          </Grid>
+        </Border>
+      </VerticalStackLayout>
+      <Button Grid.Row="1" Text="Go to my dashboard" Style="{StaticResource PrimaryButton}" HeightRequest="54" Command="{Binding GoToDashboardCommand}" />
+    </Grid>
+  </Grid>
+</pages:BasePage>
